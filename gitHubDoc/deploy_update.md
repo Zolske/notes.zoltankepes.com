@@ -1,6 +1,6 @@
-# How to Deploy and Update
+# How to Setup and Update
 
-## how to deploy
+## how to Setup
 ### 1. [install "Docusaurus"](https://docusaurus.io/docs/installation)
 - follow the steps of how to install it on your local computer   
 `npx create-docusaurus@latest my-website classic`   
@@ -20,6 +20,11 @@
 - push your local repo to your GitHub project, enter the SSH "key-phrase" when prompted   
 `git push --set-upstream origin main`
 
-### 3. check for updates
+### 3. connect to Vercel
+- after logging in, create a new project, choose GitHub repo with the project
+
+ ---
+## how to Update
+### 1. check for updates
 - changes to the site can be made on GitHub, fetch and than up date locale repo   
 `git fetch` `git pull`
