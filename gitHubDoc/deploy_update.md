@@ -26,5 +26,9 @@
  ---
 ## how to Update
 ### 1. check for updates
-- changes to the site can be made on GitHub, fetch and than up date locale repo   
-`git fetch` `git pull`
+- changes to the site can be made on GitHub, pull changes from GitHub repo   
+`git pull`
+
+### 2. push updates
+- as usual / add changes / commit / and push  
+`git add .` / `git commit -m "message"` / `git push`
