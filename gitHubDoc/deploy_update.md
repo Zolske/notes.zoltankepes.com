@@ -1,14 +1,14 @@
 # How to Setup and Update
 
 ## how to Setup
-### 1. [install "Docusaurus"](https://docusaurus.io/docs/installation)
+### 1. install ["Docusaurus"](https://docusaurus.io/docs/installation)
 - follow the steps of how to install it on your local computer   
 `npx create-docusaurus@latest my-website classic`   
 *replace "my-website" with the name of your project* 
 - build your project   
 `npm run build`
 
-### 2. initialize git repo and commit to gitHub
+### 2. initialize git repo and commit to [GitHub](https://github.com/Zolske)
 - initialize git repo local / add / commit   
 `git init` / `git add .` / `git commit -m "Docusaurus setup`
 - create a new project on GitHub without "README" and ".gitignore"
@@ -20,7 +20,7 @@
 - push your local repo to your GitHub project, enter the SSH "key-phrase" when prompted   
 `git push --set-upstream origin main`
 
-### 3. connect to Vercel
+### 3. connect to [Vercel](https://vercel.com/dashboard)
 - after logging in, create a new project, choose GitHub repo with the project
 
  ---
