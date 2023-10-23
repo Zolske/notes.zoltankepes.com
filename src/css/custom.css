@@ -28,3 +28,39 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* overwrite Infima default styles ############################################################## */
+/* landing page ################################################################################# */
+.hero--primary {
+  /* //--ifm-color-gray-300 #dadde1 */
+  background-color: var(--ifm-color-gray-300);
+}
+.hero__subtitle {
+  color: var(--ifm-color-gray-600);
+  font-style: italic;
+  width: 60vw;
+  margin: auto;
+}
+/* add icon to folder ############################################################################ */
+/* 1st label after side logo and "Home" */
+.navbar__brand + .navbar__link::before {
+  content: url(/static/img/icons/web-development_24.png);
+  padding-right: 3px;
+}
+
+/* 2nd label after side logo and "Home" */
+.navbar__brand + .navbar__link + .navbar__link::before {
+  content: url(/static/img/icons/swiss-army-knife_24.png);
+  padding-right: 3px;
+}
+
+/* highlight label in navbar when hovered or selected */
+.navbar__brand:hover, .navbar__link:hover, .navbar__link--active {
+  background-color: #f2f2f2;
+}
+
+/* icon for the folder "c" */
+a[href~="/category/c"]::before {
+  content: url(/static/img/icons/c_24.png);
+  padding-right: 3px;
+}
