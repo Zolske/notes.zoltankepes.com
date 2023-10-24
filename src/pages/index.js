@@ -1,23 +1,26 @@
-import React from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import React from "react";
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
 
-import styles from './index.module.css';
+import styles from "./index.module.css";
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <h1>
-        <img
-        src={require('../../static/img/elements/notes.zoltankepes_notes_logo_title.png').default}
-  alt="page title 'notes zoltankepes.com'"
-/>
-</h1>
+          <img
+            src={
+              require("../../static/img/elements/notes.zoltankepes_notes_logo_title.png")
+                .default
+            }
+            alt="page title 'notes zoltankepes.com'"
+          />
+        </h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
       </div>
     </header>
@@ -25,12 +28,13 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       // title={`Hello from ${siteConfig.title}`}
       title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      description="Collection of Zoltan's programming notes."
+    >
       <HomepageHeader />
       <main>
         <HomepageFeatures />

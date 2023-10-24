@@ -64,3 +64,27 @@ a[href~="/category/c"]::before {
   content: url(/static/img/icons/c_24.png);
   padding-right: 3px;
 }
+
+/* start footer #############################################################################*/
+.cfoot--header {
+  text-align: center;
+  letter-spacing: 8px;
+  margin-bottom: 20px;
+}
+
+.cfoot--container {
+  display: flex;
+  justify-content: center;
+}
+
+.cfoot--container img{
+width: 50px;
+margin: 6px 20px;
+border-radius: 25%;
+box-shadow: 2px 2px 20px lightblue;
+}
+
+.cfoot--container img:hover{
+  box-shadow: 2px 2px 20px orange;
+  }
+/* end footer #############################################################################*/
