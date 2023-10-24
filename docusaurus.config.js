@@ -43,7 +43,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Zolske/notes.zoltankepes.com',
+            'https://github.com/Zolske/notes.zoltankepes.com/tree/main',
         },
         blog: {
           // not showing blog set to false otherwise true

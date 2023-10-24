@@ -4,22 +4,23 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Powered by "Docusaurus"',
+    Svg: require('@site/static/img/elements/logo_original.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        The website is built with <a href='https://docusaurus.io/' target="_blank">Docusaurus</a>, 
+        which is a fantastic tool for building sites from Markdown.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Download Notes from GitHub',
+    Svg: require('@site/static/img/elements/markdown.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+      Every page has a link &nbsp;
+      <svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" color='#2e8555' ><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>
+      &nbsp; that will take you to my GitHub page. From there you can download any note as Markdown for free.
       </>
     ),
   },
