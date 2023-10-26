@@ -42,6 +42,12 @@
   margin: auto;
 }
 /* add icon to folder ############################################################################ */
+/* align logo/home icon with the rest of the nav bar */
+.navbar__brand {
+  padding: 4px 12px;
+  margin: 0;
+}
+
 /* 1st label after side logo and "Home" */
 .navbar__brand + .navbar__link::before {
   content: url(/static/img/icons/web-development_24.png);
@@ -54,15 +60,39 @@
   padding-right: 3px;
 }
 
+/* 2nd label after side logo and "Home" */
+.navbar__brand + .navbar__link + .navbar__link::before {
+  content: url(/static/img/icons/swiss-army-knife_24.png);
+  padding-right: 3px;
+}
+
+/* from the right side */
+.navbar__items--right > [href="/help/makrdown_guide"]::before {
+  content: url(/static/img/icons/question_24.png);
+  padding-right: 3px;
+}
+
 /* highlight label in navbar when hovered or selected */
 .navbar__brand:hover, .navbar__link:hover, .navbar__link--active {
   background-color: #f2f2f2;
+  border-radius: 5%;
 }
 
 /* icon for the folder "c" */
-a[href~="/category/c"]::before {
+.menu__list-item-collapsible > [href~="/category/c"]::before {
   content: url(/static/img/icons/c_24.png);
   padding-right: 3px;
+}
+
+/* change the default "Edit Page" to the image which takes to gitHub for editing / download */
+.theme-edit-this-page {
+  content: url(/static/img/elements/download_edit.png);
+  height: 26px;
+}
+
+.theme-edit-this-page:hover {
+  content: url(/static/img/elements/download_edit_gray.png);
+  height: 26px;
 }
 
 /* start footer #############################################################################*/
