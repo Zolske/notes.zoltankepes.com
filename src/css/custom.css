@@ -67,7 +67,7 @@
 }
 
 /* from the right side */
-.navbar__items--right > [href="/help/makrdown_guide"]::before {
+.navbar__items--right .navbar__item.navbar__link::before {
   content: url(/static/img/icons/question_24.png);
   padding-right: 3px;
 }
@@ -81,6 +81,18 @@
 /* icon for the folder "c" */
 .menu__list-item-collapsible > [href~="/category/c"]::before {
   content: url(/static/img/icons/c_24.png);
+  padding-right: 3px;
+}
+
+/* icon for the folder "git" */
+.menu__list-item-collapsible > [href~="/category/git"]::before {
+  content: url(/static/img/icons/git_24.png);
+  padding-right: 3px;
+}
+
+/* icon for the folder "gitHub" */
+.menu__list-item-collapsible > [href~="/category/github"]::before {
+  content: url(/static/img/icons/github_24.png);
   padding-right: 3px;
 }
 
