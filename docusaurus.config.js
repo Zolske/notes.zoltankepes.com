@@ -93,6 +93,12 @@ const config = {
           },
           {
             type: "docSidebar",
+            sidebarId: "booksSidebar",
+            position: "left",
+            label: "Books",
+          },
+          {
+            type: "docSidebar",
             sidebarId: "helpSidebar",
             position: "right",
             label: "Help",

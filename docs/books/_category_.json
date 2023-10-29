@@ -1,0 +1,8 @@
+{
+    "label": "Books",
+    "position": 1,
+    "link": {
+      "type": "generated-index",
+      "description": "Book notes to important books I have read."
+    }
+  }

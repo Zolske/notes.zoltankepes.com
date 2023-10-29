@@ -48,21 +48,21 @@
   margin: 0;
 }
 
-/* 1st label after side logo and "Home" */
+/* 1st label after site logo and "Home" */
 .navbar__brand + .navbar__link::before {
   content: url(/static/img/icons/web-development_24.png);
   padding-right: 3px;
 }
 
-/* 2nd label after side logo and "Home" */
+/* 2nd label after site logo and "Home" */
 .navbar__brand + .navbar__link + .navbar__link::before {
   content: url(/static/img/icons/swiss-army-knife_24.png);
   padding-right: 3px;
 }
 
-/* 2nd label after side logo and "Home" */
-.navbar__brand + .navbar__link + .navbar__link::before {
-  content: url(/static/img/icons/swiss-army-knife_24.png);
+/* 3rd label after site logo and "Home" */
+.navbar__brand + .navbar__link + .navbar__link + .navbar__link::before {
+  content: url(/static/img/icons/book_24.png);
   padding-right: 3px;
 }
 
@@ -93,6 +93,12 @@
 /* icon for the folder "gitHub" */
 .menu__list-item-collapsible > [href~="/category/github"]::before {
   content: url(/static/img/icons/github_24.png);
+  padding-right: 3px;
+}
+
+/* book icons */
+[href="/books/makefile/managing_projects_with_gnu_make"]::before {
+  content: url(/static/img/icons/managing_projects_with_gnu_make_24x32.png);
   padding-right: 3px;
 }
 
