@@ -32,11 +32,18 @@ $(MAIN): $(OBJFILES)
 %.o: %.c
         $(CC) $(CFLAGS) -c $< -o $@  # $@ before : , $< after :
 
-clean:
-        rm -f $(OBJFILES) $(MAIN)
+clean:                                     # remove object files
+        rm -f $(OBJFILES)
+
+fclean: clean                              # remove object, executable and libraries 
+        rm $(MAIN) *.a
+
+re: fclean all                             # remove object, executable, library files and rebuild
 
 test: $(MAIN)
        ./$(MAIN)
+
+.PHONY: all clean fclean re
 ```
 
 - line 19:
