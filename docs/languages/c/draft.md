@@ -1,6 +1,6 @@
 # type void pointer
 ---
-reference:  (Void Pointer in C)[https://byjus.com/gate/void-pointer-in-c/#:~:text=Faqs-,What%20is%20a%20Void%20Pointer%20in%20C%3F,type%20address%20in%20the%20program.]
+reference:  [Void Pointer in C](https://byjus.com/gate/void-pointer-in-c/#:~:text=Faqs-,What%20is%20a%20Void%20Pointer%20in%20C%3F,type%20address%20in%20the%20program.)
 ---
 
 ## What is a "type Void Pointer" in C?
@@ -16,7 +16,7 @@ The pointer to void can be used in generic functions in C because it is capable 
 - The declaration of a void pointer happens with the keyword `void`, a `*` followed by the name of the pointer.
 - The address of any data type can then be assigned to the void pointer multiply times
 - But to dereference the void pointer, it needs to be casted into the appropriated data type first and then dereferenced.
-```c title="declaring a void pointer and passing addresses of different types"
+```c title="declaring a void pointer and passing addresses of different types" showLineNumbers
 #include<stdlib.h>
 #include<stdio.h>
 
