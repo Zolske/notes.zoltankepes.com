@@ -2,6 +2,29 @@
 
 ---
 
+- [x] isalpha
+- [x] isprint
+- [x] isdigit
+- [x] isalnum
+- [x] isascii
+- [x] tolower
+- [ ] bzero
+- [x] strlen
+- [x] strlcpy
+- [x] strlcat
+- [x] strchr
+- [x] strrchr
+- [x] strncmp
+- [x] strnstr
+- [ ] memchr
+- [ ] memcpy
+- [ ] memcmp
+- [ ] memmove
+- [ ] memset
+- [ ] atoi
+- [ ] calloc
+- [ ] strdup
+
 ## Character Functions
 
 ### Check Character
@@ -299,7 +322,17 @@ The character is stored in integer form in C programming. When a character is pa
           <br />- haystack - This is the main C string to be scanned.
           <br />- needle - This is the small string to be searched within haystack string.
           <br /><b>Return Value:</b><br />
-          This function returns a pointer to the first occurrence in haystack of any of the entire sequence of characters specified in needle, or a Null pointer if the sequence is not present in haystack.
+          This function returns a pointer to the first occurrence in haystack of any of the entire sequence of characters specified in needle, or a Null pointer if the sequence is not present in haystack. If needle is an empty string then haystack is returned.
+        </td>
+      </tr>
+      <tr>
+        <td><code>char&nbsp;*strnstr(const&nbsp;char&nbsp;*haystack,&nbsp;const&nbsp;char&nbsp;*needle,&nbsp;size_t&nbsp;len)</code></td>
+        <td>
+          The same as "strstr", with the addition that no more than len characters are searched.
+          <br /><b>Return Value:</b><br />
+            The same us "strstr".
+          <br /><b>Note:</b><br />
+          Is not portable because it is a "NetBSD" specific API function.
         </td>
       </tr>
     </tbody>
