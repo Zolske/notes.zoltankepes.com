@@ -1,17 +1,16 @@
 ---
-sidebar_position: 1
+sidebar_position: 8
 ---
 
-# Part 1: C Fundamentals
-
----
-
-## 8. Creating and Using Enumerations
+# 8. Creating and Using Enumerations
 
 ### What are Enumerations?
 
+Enumeration or Enum in C is a special kind of data type defined by the user. It consists of constant integrals or integers that are given names by a user. The use of enum in C to name the integer values makes the entire program easy to learn, understand, and maintain by the same or even different programmer.
+
 - allow us to group conceptually related values together in an set (_to make the relationship between each value clear_)
 - helps to write more readable code, by grouping related values together, which can be used by an meaningful name
+- the value itself is not always impotent, it is the "enum item names" which can be used as a "super boolean"
 
 ### Defining Enumerations
 
@@ -45,6 +44,7 @@ card = 4.3;         // value is 4, because of conversion to int
 card = card - 3;    // value is 1, can be used like any other number in operations
 card = "string";    // NOT POSSIBLE! can be only int
 if (card == eClub)  // can be used in comparison
+if (card == 1)      // the same as above
 ```
 
 ### scoping the enum data type
@@ -68,7 +68,7 @@ void some_function(void){
 }
 ```
 
-### unnamed (anonymous) enumerations type
+### anonymous enumerations type (literal integer constants)
 
 We can declare an anonymous enumerated type that contains enumerated items that act identically to literal constants, as follows:
 
