@@ -6,7 +6,7 @@ sidebar_position: 8
 
 ### What are Enumerations?
 
-Enumeration or Enum in C is a special kind of data type defined by the user. It consists of constant integrals or integers that are given names by a user. The use of enum in C to name the integer values makes the entire program easy to learn, understand, and maintain by the same or even different programmer.
+Enumeration or Enum in C is a special kind of data type defined by the user. It consists of constant integers that are given names by a user. The use of enum in C to name the integer values makes the entire program easy to learn, understand, and maintain by the same or even different programmer.
 
 - allow us to group conceptually related values together in an set (_to make the relationship between each value clear_)
 - helps to write more readable code, by grouping related values together, which can be used by an meaningful name
@@ -18,20 +18,21 @@ Enumeration or Enum in C is a special kind of data type defined by the user. It 
 
 ![enum data type](./img/enum_data_type.png)
 
-- **line 1:** defines the `enum suit` data type, the name is arbitrary
+- **line 1:** defines the `enum e_suit` data type, the name is arbitrary
+  - **CONVENTION:** enum names should be named lowercase and starting with `e_` followed by the name
   - **NOTE:** "enumeration item names" need to be uniq, but there values can be the same
-- **line 2:** declare a variable of the data type `enum suit` with the name `card`
+- **line 2:** declare a variable of the data type `enum e_suit` with the name `card`
 - **line 3:** assign a value `4` to the variable `card`
 
 #### without defining values
 
 ```c title="let the compiler assign values"
- enum suit { eSpade, eHeart, eDiamond, eClub };
+ enum e_suit { eSpade, eHeart, eDiamond, eClub };
  // the values are up to the compiler, usually they are sequenced from: 0, 1, 2, 3
 ```
 
 ```c title="can be assigned by compiler and programmer"
- enum suit { eSpade = 0, eHeart, eDiamond, eClub = 2};
+ enum e_suit { eSpade = 0, eHeart, eDiamond, eClub = 2};
  // the undefined values are up to the compiler, does not consider set values: 0, 1, 2, 2
 ```
 
@@ -50,16 +51,16 @@ if (card == 1)      // the same as above
 ### scoping the enum data type
 
 ```c title="global (anywhere accessible in the whole file, but not in other files)"
-enum something { someA = 1, someB = 2, someC = 5 };
+enum e_something { someA = 1, someB = 2, someC = 5 };
 
 int	main(void){
-    enum something hello;}
+    enum e_something hello;}
 ```
 
 ```c title="local (only within the block and its sub blocks )"
 int	main(void){
-    enum something { someA = 1, someB = 2, someC = 5 };
-    enum something hello;
+    enum e_something { someA = 1, someB = 2, someC = 5 };
+    enum e_something hello;
     if (true)
         // "hello" is accessible
 }
