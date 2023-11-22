@@ -32,7 +32,7 @@ struct s_card card = {0};  // Entire structure is zero-d.
 ```
 
 - initializing a instance of the structure `s_card` with the name `card` and every component with the value `0`
-- can only done when the variable (_'card' in this example_) is declared
+- can only be done when the variable (_`card` in this example_) is declared
 
 #### 2. at the time of declaration
 
@@ -45,8 +45,56 @@ struct s_card card = { eSpade , (int) eHeart , false };
 #### 3. assigning a already initiated structure of the same type
 
 ```c
-struct s_card card = card_0;
+struct s_card card_1 = card_0;
 ```
 
 - creates an copy of the before initiated structure `card_0`
-- components and padding must match for bitwise assignment to work
+- a default instance of the structure can be created which serves as blueprint for future instances
+- the component type of the two structures and padding must match for the bitwise assignment to work
+
+#### after declaration, component by component:
+
+```c
+struct s_card card_2 = {0}; // Entire structure is zero-d.
+card_2.suit = eHart;
+card_2.number = 42;
+card_2.isWild = false;
+```
+
+- values of an structure can be resigned (_like variables_) at any time later in the program
+- the components do not have to be assigned in the same order that they are defined in the structure, but it is a good practice to do so
+
+### accessing structure values
+
+```c
+enum e_suit e_card;                             // declaring a variable of enum 'e_card'
+e_card = eDiamond;                              // assign a value to the variable 'e_card'
+int handValue = card_2.suit + card_2.number;    // assign the sum of card_2.suit and card_2.number to handValue
+if (card_2.suit < e_card){ ...}                 // compare value of card_2.suit to enum variable e_card
+```
+
+### structure alignment
+
+- a given structure is padded with enough space so that it contains an even multiple of the size of its largest component
+  - _e.g.: if the biggest component is an int with 4 byte then the structure size is an multitude of 4, e.g.:_
+    - _1x int (4byte), 3x char (1byte) = 8 byte_
+    - _1x int (4byte), 5x char (1byte) = 12 byte_
+- Padding within a structure can occur at the end or even in between components. Holes may appear between two consecutive components or after the last component.
+- Because of the padding that's used to align structures, we cannot compare two structures as whole entities for comparison. If padding is present in a structure, the contents of that padding may be undefined, depending on how it is initialized. Therefore, even if two structures have identical component values, the values in the padding are highly unlikely to be equal.
+- If an equality test is required, a function must be written to compare two structures component by component.
+
+### performing operations on structures – functions
+
+- Except for assignment, there are no intrinsic operations for structures. To perform any operation on a single structure or with two structures, a function must be written to perform the desired operation.
+
+```c title="function to compare two structure components"
+bool isEqual( struct s_card card_1 , struct s_card card_2 )  {
+  if( card_1.suit != card_2.suit ) return false;
+  if( card_1.number != card_2.number ) return false;
+  return true;
+}
+```
+
+### structures of structures
+
+- A structure can contain components of any type, even other structures.

@@ -39,6 +39,7 @@ Enumeration or Enum in C is a special kind of data type defined by the user. It 
 ### examples of "enum data type variable" usage
 
 ```c title="possible values for a variable of the data type enum ..."
+enum e_suit card;   // declaring a variable 'card'
 card = eHart;       // value is 3
 card = 8;           // value is 8, 'eHart' is a const but the variable itself can change
 card = 4.3;         // value is 4, because of conversion to int
