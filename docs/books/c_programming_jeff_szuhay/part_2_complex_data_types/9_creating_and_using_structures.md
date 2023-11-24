@@ -6,35 +6,72 @@ sidebar_position: 1
 
 A structure is a user-defined type. There may be multiple values in a structure and they may be of the same type or different types. A structure, then, is a collection of information representing a complex object.
 
-## Declaring Structures
+---
 
-### defining a structure type
+## Creating Structures
 
-```c title="defining a 'enum e_suit' for the structure below"
+There are 3 steps needed to create a structure.
+
+| step                                                                 | description                                                                |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 1. [define](#step_1:-defining-a-structure)                           | defines the data type of the structure and its components                  |
+| 2. [declare](#step-2-declaring-a-structure)                          | a variable of the data type "structure" is created and memory is allocated |
+| 3. [initialize](#step-3-initializing-the-components-of-an-structure) | assigning values for the first time to the structure's components          |
+
+### step 1: defining a structure
+
+```c title="defining the data type 'enum e_suit' first for the structure below"
  enum e_suit { eSpade = 1, eHeart = 2, eDiamond = 3, eClub = 4 };
 ```
 
-![diagram structure declaration](../part_2_complex_data_types/img/declaring_structure.png)
+![diagram structure defining](../part_2_complex_data_types/img/defining_structure.png)
 
-- **CONVENTION:** structure names should be in lowercase and start with the prefix `s_`
-- each component can be of any intrinsic data type (_Integer, Real, Boolean, Char, ..._) or any **previously** defined custom type (enum, a structure within a structure)
-- components can't be initialized within a structure when the structure is defined
-- the initialization of components is done when a variable of that structure type is declared
-
-### initializing structures
-
-Structures can be initialized in 3 different ways:
-
-#### 1. initializing all components with 0
+- **CONVENTION:**
+  - structure names should be in lowercase and start with the prefix `s_`
+  - only one component should be defined in one line
+- each component can be of any intrinsic data type (_Integer, Real, Boolean, Char, ..._) or any **previously** defined custom type  
+  (_enum or a structure within a structure_)
+- the structure can not be a component of itself (_but it can contain a pointe to itself_)
 
 ```c
-struct s_card card = {0};  // Entire structure is zero-d.
+struct s_something {
+    struct s_something me;    // !NOT VALID! defining a component with itself
+    struct s_something *me;   // OK, defining a component with a pointer to itself,
+};
+```
+
+### step 2: declaring a structure
+
+```c title="only declare after definition"
+struct s_card card, other;   // declare the variable card and other
+```
+
+```c title="defining and declaring at the same time"
+struct s_card {
+  enum e_suit suit;
+  int         number;
+  bool        isWild;
+} card, other;              // declare the variable card and other
+```
+
+- a variable with the name `card` of the type `struct s_card` is declared and memory is allocated
+
+### step 3: initializing the components of an structure
+
+A Structures can be initialized in 2 ways:
+
+#### 3.1. at the time of declaration
+
+##### initializing all components with 0
+
+```c
+struct s_card card = {0};   // Entire structure is zero-d.
 ```
 
 - initializing a instance of the structure `s_card` with the name `card` and every component with the value `0`
 - can only be done when the variable (_`card` in this example_) is declared
 
-#### 2. at the time of declaration
+##### initializing all components individually
 
 ```c
 struct s_card card = { eSpade , (int) eHeart , false };
@@ -42,29 +79,36 @@ struct s_card card = { eSpade , (int) eHeart , false };
 
 - must be in the same order in which the structure was declared
 
-#### 3. assigning a already initiated structure of the same type
+##### assigning a already initialized structure of the same type (layout)
 
 ```c
-struct s_card card_1 = card_0;
+struct s_card card = card_0;
 ```
 
-- creates an copy of the before initiated structure `card_0`
+- creates an copy of the before initialized structure `card_0`
 - a default instance of the structure can be created which serves as blueprint for future instances
 - the component type of the two structures and padding must match for the bitwise assignment to work
 
-#### after declaration, component by component:
+#### 3.2. after the declaration
+
+##### component by component:
 
 ```c
-struct s_card card_2 = {0}; // Entire structure is zero-d.
-card_2.suit = eHart;
-card_2.number = 42;
-card_2.isWild = false;
+card.suit = eHart;
+card.number = 42;
+card.isWild = false;
 ```
 
 - values of an structure can be resigned (_like variables_) at any time later in the program
 - the components do not have to be assigned in the same order that they are defined in the structure, but it is a good practice to do so
 
-### accessing structure values
+---
+
+## Using Structures
+
+### accessing structure components (values)
+
+- components (and there values) are accessed through **dot notation**, _syntax:_ `VARIABLE.COMPONENT`
 
 ```c
 enum e_suit e_card;                             // declaring a variable of enum 'e_card'
@@ -97,4 +141,52 @@ bool isEqual( struct s_card card_1 , struct s_card card_2 )  {
 
 ### structures of structures
 
-- A structure can contain components of any type, even other structures.
+- A structure can contain components of any type, even other structures which have been defined before.
+
+```c
+struct s_hand {
+  struct s_card card;             // the component is a before defined and declared structure
+  struct s_card card_1 , card_2;  // is possible but dose not follow convention
+  int           number;
+}
+```
+
+---
+
+## Simplifying the use of struct types with typedef
+
+##### 1. define and declare variables without typedef
+
+First define a structured type, then declare variables of that type
+
+```c
+struct s_card { int num; char letter; };
+struct s_card c1 , c2 , c3 , c4 , c5;
+```
+
+```c
+struct s_card { int num; char letter; } c1 , c2 , c3 , c4 , c5; // the same as above, just shorter
+```
+
+##### 2.1. defining with typedef
+
+First define a structured type, then change the data type from `struct s_card` to `t_card` and `t_card_2`
+
+```c
+struct s_card { int num; char letter; };
+typedef struct s_card t_card, t_card_2;
+```
+
+```c
+typedef struct s_card { int num; char letter; } t_card, t_card_2; // the same as above, just shorter
+```
+
+```c
+typedef struct { int num; char letter; } t_card, t_card_2;        // the same as above, just more shorter
+```
+
+##### 2.2. declaring variables using typedef typedef data type
+
+```c
+t_card c1 , c2 , c3 , c4 , c5;
+```

@@ -96,9 +96,15 @@
   padding-right: 3px;
 }
 
-/* book icons */
+/* book icons Make*/
 [href="/books/makefile/managing_projects_with_gnu_make"]::before {
   content: url(/static/img/icons/managing_projects_with_gnu_make_24x32.png);
+  padding-right: 3px;
+}
+
+/* book icons C Programming*/
+[href="/category/c-programming"]::before {
+  content: url(/static/img/icons/c_programming_packet.png);
   padding-right: 3px;
 }
 

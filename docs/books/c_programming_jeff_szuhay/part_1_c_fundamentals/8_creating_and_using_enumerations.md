@@ -4,15 +4,17 @@ sidebar_position: 8
 
 # 8. Creating and Using Enumerations
 
-### What are Enumerations?
-
 Enumeration or Enum in C is a special kind of data type defined by the user. It consists of constant integers that are given names by a user. The use of enum in C to name the integer values makes the entire program easy to learn, understand, and maintain by the same or even different programmer.
 
 - allow us to group conceptually related values together in an set (_to make the relationship between each value clear_)
 - helps to write more readable code, by grouping related values together, which can be used by an meaningful name
 - the value itself is not always impotent, it is the "enum item names" which can be used as a "super boolean"
 
-### Defining Enumerations
+---
+
+## Creating Enumerations
+
+### 1. Defining Enumerations
 
 - enumerations values are always of type `const int` (_the value itself can not change_)
 
@@ -24,7 +26,9 @@ Enumeration or Enum in C is a special kind of data type defined by the user. It 
 - **line 2:** declare a variable of the data type `enum e_suit` with the name `card`
 - **line 3:** assign a value `4` to the variable `card`
 
-#### without defining values
+#### 1.1 Without Defining Values
+
+Let the compiler assign values.
 
 ```c title="let the compiler assign values"
  enum e_suit { eSpade, eHeart, eDiamond, eClub };
@@ -36,7 +40,7 @@ Enumeration or Enum in C is a special kind of data type defined by the user. It 
  // the undefined values are up to the compiler, does not consider set values: 0, 1, 2, 2
 ```
 
-### examples of "enum data type variable" usage
+##### examples of "enum data type variable" usage
 
 ```c title="possible values for a variable of the data type enum ..."
 enum e_suit card;   // declaring a variable 'card'
@@ -49,7 +53,7 @@ if (card == eClub)  // can be used in comparison
 if (card == 1)      // the same as above
 ```
 
-### scoping the enum data type
+### 2. Scoping the Enum Data Type
 
 ```c title="global (anywhere accessible in the whole file, but not in other files)"
 enum e_something { someA = 1, someB = 2, someC = 5 };
@@ -70,7 +74,7 @@ void some_function(void){
 }
 ```
 
-### anonymous enumerations type (literal integer constants)
+### 3. Anonymous Enum Data Type (literal integer constants)
 
 We can declare an anonymous enumerated type that contains enumerated items that act identically to literal constants, as follows:
 
@@ -80,4 +84,45 @@ enum { inchesPerFoot = 12, feetPerMile   = 5280 };
 
 int main(void){
     printf("feet per mile: %d", feetPerMile);}     // "feet per mile: 5280"
+```
+
+---
+
+## Simplifying the use of enum types with typedef
+
+##### 1. define and declare variables without typedef
+
+```c
+enum e_face { eOne , eTwo , eThree , ... };         // defining enumeration types
+enum e_suit { eSpade , eHeart, ... };
+enum e_face f1 , f2;                                // then declare variables of those types.
+enum e_suit s1 , s2;
+```
+
+```c
+enum e_face { eOne , eTwo , eThree , ... } f1, f2;  // same as above, just shorter
+enum e_suit { eSpade , eHeart, ... } s1, s2;
+```
+
+##### 2.1. defining with typedef
+
+Creating a synonym `t_face` for the `enum e_face` data type
+
+```c
+enum e_face { eOne , eTwo , eThree , ... };         // defining enumeration types
+enum e_suit { eSpade , eHeart, ... };
+typedef enum e_face t_face;                         // creating a synonym for the data type enum e_face
+typedef enum e_suit t_anyname, t_anyname_2;         // the synonym can be any name, can be more then one name
+```
+
+```c
+typedef enum e_face { eOne , eTwo , eThree , ... } t_face;;      // same as above, just shorter
+typedef enum e_suit { eSpade , eHeart, ... } t_anyname, t_anyname_2; // can be more then one name
+```
+
+##### 2.2. declaring variables using typedef data type
+
+```c
+t_face f1, f2;
+t_anyname_2 s1, s2;
 ```
