@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 12
 ---
 
 # 12 Working with Multi-Dimensional Arrays
@@ -11,7 +11,7 @@ sidebar_position: 4
 #include <stdio.h>
 #include <string.h>
 
-enum { size1D = 5, size2D = 4, size3D = 3, size4D = 2 };
+enum { size1D = 5, size2D = 4, size3D = 3, size4D = 2 };  // literal integer constants
 int main(void) {
 
   int idx_d1 = 0;
