@@ -79,12 +79,16 @@ void some_function(void){
 We can declare an anonymous enumerated type that contains enumerated items that act identically to literal constants, as follows:
 
 ```c title="without name"
-#include <stdio.h>                                  // needed for printf
-enum { inchesPerFoot = 12, feetPerMile   = 5280 };
+#include <stdio.h>                                // needed for printf
+enum { inchesPerFoot = 12, array_size = inchesPerFoot * sizeof(int) };
 
-int main(void){
-    printf("feet per mile: %d", feetPerMile);}     // "feet per mile: 5280"
+int main(void) {
+  printf("inches per foot: %d\n", inchesPerFoot); // constant name is replaced with value: "12"
+  printf("array_size: %d", array_size);}          // value is calculated at compile time: "48" (if int 4byte)
 ```
+
+- is very useful when naming the size of an "non-variable-length-array" `int    some_array[array_size];`
+- if we would have stored the vale for `array_size` in an variable or in an named enum, then we would have created an "variable-length-array".
 
 ---
 
