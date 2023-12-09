@@ -222,17 +222,20 @@ It works, but it is inefficient.
 If we wanted to change the values of parameters so that they are also changed after the function returns, we can use pointers to do so. We will assign the address of the values that we want to modify to pointer variables and then pass the pointer variables into the function.
 
 :::info passing by reference
-Every **address** which is passed to a function gets also copied, but because they can be dereferenced, the value at the memory address can be manipulated and will persist after the function ends.
+Every **address** which is passed to a function (through a pointer) gets also copied, but because they can be dereferenced, the value at the memory address can be manipulated and will persist after the function ends.  
+To manipulate the pointers address, we need to pass it as a pointer of a pointer.
 :::
 
 :::danger side effects
 Any function that modifies values that exist outside of its function body is said to have **side effects**. In many cases, side effects may cause unanticipated consequences and so should be employed with careful intention and caution.
 :::
 
+![passing by reference](./img/passing_pointer_to_function.png)
+
 #### Passing addresses to functions with pointer variables
 
 ```c
-double RectPerimeter( double* pH , double *pW )  {
+double RectPerimeter( double *pH , double *pW )  {
    *pH += 10.0;                     // dereference address, makes changes value at memory address
    *pW += 10.0;                     // dereference address, makes changes value at memory address
    return 2 * ( *pW + *pH ) ;
@@ -240,8 +243,11 @@ double RectPerimeter( double* pH , double *pW )  {
 int main( void )  {
    double  height = 15.0;
    double  width  = 22.5;
-   double* pHeight = &height;       // value does change after function call
-   double* pWidth  = &width;        // value does change after function call
+   // highlight-next-line
+   double *pHeight = &height;       // value does change after function call
+   // highlight-next-line
+   double *pWidth  = &width;        // value does change after function call
+   // highlight-next-line
    double  perimeter = RectPerimeter( pHeight , pWidth );
 }
 ```
@@ -249,7 +255,7 @@ int main( void )  {
 #### Passing addresses to functions without pointer variables
 
 ```c
-double RectPerimeter( double* pH , double *pW )  {
+double RectPerimeter( double *pH , double *pW )  {
    *pH += 10.0;                     // dereference address, makes changes value at memory address
    *pW += 10.0;                     // dereference address, makes changes value at memory address
    return 2 * ( *pW + *pH ) ;
@@ -257,6 +263,7 @@ double RectPerimeter( double* pH , double *pW )  {
 int main( void )  {
    double  height = 15.0;           // value does change after function call
    double  width  = 22.5;           // value does change after function call
+   // highlight-next-line
    double  perimeter = RectPerimeter( &height , &width );
 }
 ```
