@@ -1,0 +1,8 @@
+{
+    "label": "Born 2 Be Root",
+    "position": 1,
+    "link": {
+      "type": "generated-index",
+      "description": "The goal of this project is to create a virtual machine using 'Virtual Box' and to install a Linux Distro."
+    }
+  }
