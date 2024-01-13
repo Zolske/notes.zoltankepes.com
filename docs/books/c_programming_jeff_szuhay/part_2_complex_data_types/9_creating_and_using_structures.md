@@ -2,7 +2,7 @@
 sidebar_position: 9
 ---
 
-# 9. Creating and using Structures
+# 9 Creating and using Structures
 
 A structure is a user-defined type. There may be multiple values in a structure and they may be of the same type or different types. A structure, then, is a collection of information representing a complex object.
 
