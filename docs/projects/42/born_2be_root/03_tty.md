@@ -4,57 +4,7 @@ sidebar_position: 3
 
 # What do PTY and TTY Mean?
 
-<!-- _back to:_ [implementation -> requiretty](./02_implementation.md#requiretty)
-_source:_ [baeldung -> "What do PTY and TTY mean?"](https://www.baeldung.com/linux/pty-vs-tty#what-is-a-pty)
-
-On the lowest level, most Linux system interactions use a text interface. There are many mechanisms to enable the system to provide as much information as possible at the users’ fingertips. Even before the use of a complex graphical user interface (GUI) with convenient windows and controls, there were command-line interface (CLI) tools to leverage these mechanisms.
-
-## Terminals Types
-
-Terminals are ways to provide input to and get output from a system.
-
-- **Hardware terminal:** i.e., [teletypewriters](https://simple.wikipedia.org/wiki/Teletypewriter), video display unit (VDU)[^vdu]
-- **Software terminal:** i.e., virtual TeleTYpe (TTY), which is the main interface of a Linux operating system
-- **Software pseudo-terminal:** i.e., PseudoTeletYpe (PTY), which allows emulating a TTY
-- **Software terminal emulator:** based on the previous ideas, but usually enhancing them via the actual or CLI-emulated GUI
-
-## What is a TTY?
-
-TTY is an acronym for teletype or teletypewriter. In essence, TTYs are devices that enable typing (type, typewriter) from a distance (tele).
-
-In a modern operating system (OS), the concept applies directly. Linux uses a device file to represent a virtual TTY, which enables interaction with the OS by handling input (usually a keyboard) and output (usually a screen).
-
-While Linux systems can have multiple TTYs, their number is usually limited by the configuration.
-
-Pure TTYs do allow communication, but they don’t provide much flexibility because at least one end of the TTY is (a keyboard, mouse, or another input device via) the kernel. On the other hand, a PTY can be linked to any application on both ends.
-
-## What is PTY?
-
-PTY is an acronym for pseudo-TTY. The name PTY stems from the fact that it behaves like a TTY but for any two endpoints. This minor difference enables multiple PTYs to co-exist within the context of the same TTY.
-
-In fact, both sides of a PTY have a name:
-
-slave, /dev/pts, represented by a file in /dev/pts/#
-master, ptm, which only exists as a file descriptor of the process, which requests a PTY
-This is where /dev/ptmx, the pseudo-terminal multiplexor device, comes in. Effectively, there are several steps to establish and use a PTY:
-
-A process opens /dev/ptmx
-The OS returns a master ptm file descriptor
-The OS creates a corresponding /dev/pts/# slave pseudo-device
-From this point, slave input goes to the master, while master input goes to the slave
-To know the correspondence between a master and slave, we can call the ptsname function.
-
-Basically, a PTY enables bi-directional communication similar to pipes. Unlike pipes, it provides a terminal interface to any process that requires it.
-
-What do we do with this power?
-
----
-
-[^vdu:]Short for video display unit, VDU is a computing device that allows input from a user and output to a display, like a computer monitor. A VDU consists of a display device and a keyboard and could include a mouse. In the United States, it is sometimes known as a video display terminal or VDT (video display terminal).
-
---- -->
-
----
+_source:_ [Ahmed Yakout](https://yakout.io/blog/terminal-under-the-hood/), [novaordis.com](https://kb.novaordis.com/index.php/Linux_TTY)
 
 ## TTY
 
@@ -85,10 +35,55 @@ A TTY (**T**ele**ty**pe) terminal session, refers to the interaction between a u
   | `ALT` + `F1`          | switch to the login screen                                |
   | `ALT` + `F2`          | switch GUI (e.g. Ubuntu)                                  |
 
-- **line discipline:** The kernel provides many line disciplines but only one is enabled by default and connected to a serial device. The default one, which provides line editing, is called N_TTY. This allows for editing (the internal buffer) with commands features like backspace, erase word, and clear line, it also handles special characters such as the interrupt character (CTRL + C). Advanced applications like vim and ssh disables these features by putting the line discipline into raw mode, so they can handle all these stuff themselves.
+- **line discipline:** The kernel provides many line disciplines but only one is enabled by default and connected to a serial device. The default one, which provides line editing, is called **N_TTY**. This allows for editing (the internal buffer) with commands features like backspace, erase word, and clear line, it also handles special characters such as the interrupt character (CTRL + C). Advanced applications like vim and ssh disables these features by putting the line discipline into raw mode, so they can handle all these stuff themselves. Line discipline is implemented by the TTY driver which is a kernel module.
 
 - **TTY driver:** implements session management which will help user to have many processes running at the same time and only interacting with foreground process which his/her input will be redirected to it and only the foreground process will be allowed to send output to the TTY device.
 
 - **TTY Sessions and Multiplexers:** TTY sessions can be managed using multiplexers like "tmux" or "screen". These tools allow users to create multiple terminal sessions within a single TTY, enabling the management of multiple tasks in a single terminal window.
 
 - **Physical Terminals:** e.g. teletypewriters, hard-copy, video display unit (VDU). In the past, physical terminals were dedicated hardware devices that allowed users to interact with mainframe computers. Modern systems typically use virtual terminals or terminal emulators.
+
+:::tip
+
+Some people use a tty to run commands instead of a terminal emulator in the GUI if they are doing a long running task (e.g system update or moving home directory to another hard disk) and they are afraid the graphical desktop environment (window manager) will crash or freezes causing issues to the task.
+
+:::
+
+## What’s a pseudo terminal PTY? (PTY vs TTY)
+
+Simply It’s Teletype emulated by a computer program running in the "**user space**", in contrast, TTY is a kernel program/emulator.
+
+:::info "kernel-space" vs "user-space"
+
+**Note:** The difference between kernel space and user space is that kernel space has access to the hardware directly while the user space interacts with the kernel only.
+
+:::
+
+PTY will behave like TTY, except that there is no attachment to a seat; you can open several terminal emulator windows at the same time (multiple PTYs) and display them side by side, having different sessions running in parallel.
+
+PTY is pair of master and slave sides, Writing to the master is exactly like typing on a terminal, thus the master pseudo-device acts like the person sitting in front of the physical computer text terminal, whereas the slave pseudo-device emulates a physical computer text terminal, so anything you write in the master will appear in the slave and anything written in the slave will appear to the master.
+
+when you open a terminal emulator program, it forks a process that requests a pty pair from the OS and starts a new session which is a group of processes running under control of a single user (i.e shell), it is defined by the first process that attach the pts (e.g bash).
+
+The slave part (pts) is represented by a file in **/dev/pts/N** where N is a number, you can know what slave your session is attached to using `tty` or `ps` commands.
+
+The master part (ptm), is not represented on the file system. It is represented by a file descriptor obtained by the system call that creates a pty.
+
+### Shells & Sessions
+
+A shell is what allows you to interact with your computer and OS, when I mention the word session , it means shell session which acts as a layer between the kernel and the user, so whenever you run a command in your terminal emulator it’s the shell (e.g bash) that listens for them on the PTY slave attached to it, captures them, communicate with the kernel then write the output back to the PTY slave which the TTY driver will see it and send it to the PTY master so it can be shown in the terminal emulator UI.
+
+The process that is running shell is known as session leader. Every other process that is running in the terminal is child of this session leader. These child processes form process groups that are controlled by this session leader (parent process), and when you logout from the terminal, kernel sends SIGHUP (kill -1) to the session leader, that will propagate this signal to each child process.
+
+Each session is managed by a session leader, the shell, which is cooperating tightly with the kernel using a complex protocol of signals and system calls.
+
+![pty](./img/pty.png)
+
+- _Example:_ What happens when you type ls command in terminal?
+
+1. You open the terminal emulator which requests a pty from the OS that will return a pair of file descriptors for the master and slave sides, then starts the bash program as a sub-process and attach it to the slave part.
+2. The terminal emulator sends the characters to the master side, the TTY driver takes the character echo them back to the master and buffers them.
+3. When you hit enter the TTY driver copies the characters in the buffer to the slave.
+4. The bash takes it’s input from the slave (std input steam points to pts) so when you type ls and press enter it will start a child sub-process, executes the command and writes the output to the std output which also points to the pts.
+5. The tty driver will take the output from pts and echo it to the master
+6. The terminal emulator program will redraw it’s GUI to show you the results of commands you typed.
