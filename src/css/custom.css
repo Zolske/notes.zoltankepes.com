@@ -66,6 +66,12 @@
   padding-right: 3px;
 }
 
+/* 4th label after site logo and "Home" */
+.navbar__brand + .navbar__link + .navbar__link + .navbar__link + .navbar__link::before {
+  content: url(/static/img/icons/project_24.png);
+  padding-right: 3px;
+}
+
 /* from the right side */
 .navbar__items--right .navbar__item.navbar__link::before {
   content: url(/static/img/icons/question_24.png);
@@ -105,6 +111,12 @@
 /* book icons C Programming*/
 [href="/category/c-programming"]::before {
   content: url(/static/img/icons/c_programming_packet.png);
+  padding-right: 3px;
+}
+
+/* 42 icon*/
+[href="/category/42-projects"]::before {
+  content: url(/static/img/icons/42.png);
   padding-right: 3px;
 }
 

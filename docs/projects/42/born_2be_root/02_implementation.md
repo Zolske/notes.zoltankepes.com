@@ -43,12 +43,12 @@ Our Guest OS can not be seen by the Host OS even if you use the correct Guest OS
 
 1. right click on the "virtual machine" and choose "**Settings**" -> "**Network**"
 2. choose a free "**Adapter**" and select under "**Attached to:**" "**NAT**"  
-   ![virtualbox settings](../img/vb_settings.png)
+   ![virtualbox settings](./img/vb_settings.png)
 3. under **Advanced** select "**Port Forwarding**"
    - **Name** can be anything you want - **Host IP** leave blank, VirtualBox knows the Host OS IP - **Host Port** e.g. `2121`, port on which the Host OS is conneting, must be free (use `netstat -lntu` to see which ports are already used e.g.:  
      `tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN` means port 22 is already taken)
    - **Guest IP** needs to be the ip of the Guest OS, use `hostname -I` on the Guest machine to find it, should be `10.0.2.15` - **Guest Port** `4242`, the port to wich the Guest OS will be listening, use "4242" because that is the only port which we are allowed to open  
-     ![port forwarding](../img/virbox_portforward.png)  
+     ![port forwarding](./img/virbox_portforward.png)  
      **NOTE:** You need to restart your Guest OS if you make changes in the settings while it is running for the changes to take effect.
 
 ### 03.02 preparing the Guest OS
@@ -84,9 +84,9 @@ We can not conncet direct to the server, we need to send a request to our self (
 
 1. open a terminal and run: `ssh -p 2121 zkepes@localhost`
    - the first time you run this command you will be ask if ... `you want to continue connectin` ... type `yes`
-     ![auth can't establish](../img/ssh_auth_no_established.png)
+     ![auth can't establish](./img/ssh_auth_no_established.png)
    - enter your password, may be the connecton will lost, run `ssh -p 2121 zkepes@localhost` again, this time the fingerprint will be saved
-     ![auth run again](../img/ssh_auth_run_again.png)
+     ![auth run again](./img/ssh_auth_run_again.png)
 2. troubleshooting:
 
 - If you get a message like that in the furture, then you should be carefull!
@@ -310,7 +310,7 @@ The **sudoers plugin** of sudo has many options to control the permissions conte
    | :----------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
    | `Defaults badpass_message="Password is wrong, try again"`                                        | default error message if user enters wrong password                                                                                                       |
    | `Defaults logfile=”/var/log/sudo/sudo.log”`                                                      | un- or successful sudo attempts are logged in that file.                                                                                                  |
-   | `Defaults requiretty`                                                                            | sudo will only run when the user is logged in to a real tty                                                                                               |
+   | `Defaults requiretty`                                                                            | sudo will only run when the user is logged in to a real tty session                                                                                       |
    | `Defaults passwd_tries=3`                                                                        | The number of tries a user gets to enter his password before sudo logs the failure and exits.                                                             |
    | `Defaults secure_path= ”/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin”` | Only the environment variable at that path can be used when sudo is run. Meaning that only programs which are installed at that location can be executed. |
 
@@ -321,8 +321,8 @@ When a program is called, Linux looks in the "**environment-variable: PATH**" fo
 The **secure_path** setting restricts the "**environment-variable: PATH**" when **sudo** is called. The folders in that path should be write restricted, to prevent a malicious program from being saved there.
 
 - _example:_ If a malicious program with the name "**apt**" where placed in a folder which comes before the folder of the real **apt** then it would be executed before the real one when you run for example `sudo apt update`.
+- _tip:_ the `whereis` command shows you where a program is installed
 
 #### requiretty
 
-_source:_ [baeldung](https://www.baeldung.com/linux/sudo-requiretty-option)
-One of these options is requiretty, which poses a limitation over the terminal and shell we use when using sudo.
+Specifies whether a terminal is required for a user to run commands with sudo. When requiretty is enabled, it means that users must run sudo commands from a terminal session, and they cannot use sudo in contexts where no terminal is available, such as in certain scripts or cron jobs.

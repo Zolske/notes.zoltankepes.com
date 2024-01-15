@@ -2,6 +2,8 @@
 sidebar_position: 1
 ---
 
+# Subject Overview
+
 :::note Disclaimer
 
 I wrote this notes for my future self, you are welcome to use them.
@@ -12,8 +14,6 @@ This way you will learn more, happy coding. :computer: :smile: :thumbsup:
 P.S. If you have a GitHub account then you can "propose changes" to my side by clicking the "download edit" button at the bottom of the page. Any feedback would be very welcome, thank you.
 
 :::
-
-# Subject Overview
 
 The goal is to create a virtual machine with "Debian" as a headless server (no graphical UI, only command line). Following features need to be implemented:
 
@@ -31,7 +31,7 @@ The goal is to create a virtual machine with "Debian" as a headless server (no g
 [ ] hostname must be 42 login name with the suffix '42' (e.g. zkepes42)  
 [ ] SELinux (adapt confi) and AppArmor must be running at startup  
 [ ] at least 2 encrypted partitions using LVM, see example:  
-![example partition](../img/sub_partition.png)
+![example partition](./img/sub_partition.png)
 
 ## 02. UFW (uncomplicated fire wall)
 
@@ -87,7 +87,7 @@ The goal is to create a virtual machine with "Debian" as a headless server (no g
 [ ] - number of users using the server  
 [ ] - IPv4 address of your server and its MAC (Media Access Control) address  
 [ ] - number of commands executed with the sudo program  
-![broadcast message](../img/sub_broadcast_message.png)
+![broadcast message](./img/sub_broadcast_message.png)
 
 ## 08. commands to check some of the subjects requirements
 
@@ -95,7 +95,7 @@ The goal is to create a virtual machine with "Debian" as a headless server (no g
 - `/usr/sbin/aa-status`: if AppArmor module is loaded
 - `ss -tunlp`: [socket statistics](https://man7.org/linux/man-pages/man8/ss.8.html),
 - `/usr/sbin/ufw status` ufw fire wall status (list open ports)  
-  ![requirements check](../img/sub_req_check.png)
+  ![requirements check](./img/sub_req_check.png)
 
 ## 09. submission
 
