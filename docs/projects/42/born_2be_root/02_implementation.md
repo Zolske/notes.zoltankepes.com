@@ -326,3 +326,118 @@ The **secure_path** setting restricts the "**environment-variable: PATH**" when 
 #### requiretty
 
 Specifies whether a terminal is required for a user to run commands with sudo. When requiretty is enabled, it means that users must run sudo commands from a terminal session, and they cannot use sudo in contexts where no terminal is available, such as in certain scripts or cron jobs.
+
+---
+
+## Broadcast "System Status" Message
+
+- **Architecture:** `uname -a`  
+    - `uname` print system information  
+    | flag | discription | example |
+    | :--- | :--- | :--- |
+    |`-a` |all other flags except `-p -i` if unknown | |
+    |`-s` |kernel name | `Linux` |
+    |`-n` |network node hostname | `zkepes` |
+    |`-r` |kernel release | `6.1.0-17-amd64` |
+    |`-v` |kernel version | `#1 SMP PREEMPT_DYNAMIC Debian 6.1.69-1 (2023-12-30)`|
+    |`-m` |machine hardware name | `x86_64` |
+    |`-o` |operating system | `GNU/Linux` |
+
+- **CPU physical:** from the `/proc/cpuinfo` file
+    - we simply `-c` count how many 'physical ids' there are to know how many physical CPUs we have.
+    -  `grep -c 'physical id' /proc/cpuinfo`
+- **CPU virtual:** from the `/proc/cpuinfo` file
+    - we simply `-c` count how many `^` lines start with `processor` 
+    -  `grep -c '^processor' /proc/cpuinfo`
+    <details>
+    <summery>What is a "Virual Processor"?</summery>
+        <p>
+            The virtualized representation of a physical processor within a virtual machine. It doesn't exist as a separate physical entity but is emulated by the hypervisor (virtualization software).
+        </p>
+        <p>
+            Hypervisor: Also known as a Virtual Machine Monitor (VMM), the hypervisor is the software layer that sits between the physical hardware and the virtual machines. It manages and allocates physical resources to VMs, including virtual processors.
+        </p>
+        <p>
+            Guest Operating System: The operating system running within a virtual machine.
+        </p>
+        <p>
+            In a virtualized environment, multiple VMs can run simultaneously on the same physical hardware, sharing the resources of the host machine. Each VM believes it has its own dedicated set of hardware, including one or more virtual processors.
+        </p>
+        <p>
+            The hypervisor is responsible for managing the scheduling of virtual processors, ensuring that each VM gets a fair share of CPU time. It translates the instructions from the virtual processors to the corresponding instructions that can be executed on the actual physical processors.
+        </p>
+    </details>
+
+- **Memory Usage:** from the `/proc/meminfo` file
+    - **MemUsed:** `MemTotal - MemFree`
+    - **MemTotal:** `grep 'MemTotal:' /proc/meminfo | tr -dc 0-9) /1000`
+        - grep the line "MemTotal" and delete everything except digits, divide to get MB
+    - **MemFree:** `grep 'MemFree:' /proc/meminfo | tr -dc 0-9) /1000`
+        - grep the line "MemFree" and delete everything except digits, divide to get MB
+        ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
+    - for the %, calculate and print the result when echoing, because floats are dificult to safe in bash script
+        - the free command contains the info | grep line "Mem" | awk to "printf" calculation as float  
+- **Disk Usage:**
+        - use `df` with `-h` human readable and `--total` flag to get disk info | grep line "total" | print 4th arg | remove everthing except digits
+- **CPU load:** use `mpstat` (`sudo apt-get install sysstat`)
+    - to get the opposite of the idle state we just subtract 100 
+- **LastBoot:**
+    - the `who` command returns info about the logged user, `-b` is for last boot time
+- **LVM use:**
+    - **LVMcheck:**
+        `lsblk` command displays block devices and partitions | only grep if you find "lvm" | `FNR` use first record
+        - check if the variable contains string "lvm", if yes then overwrite **LVMuse** with "yes, otherwise the value "no" is not changed
+- **Connections TCP:** `ss` displaies info about system network connections (TCP/IP), `-s` summery | use 2nd record and print 2nd arg
+- **User log:**
+    - **IP4** `hostname -I` returns IP (network) address
+    - **MAC** (**m**edium **a**ccess **c**ontrol address) is a unique identifier assigned to a network interface controller for use as a network address in communications within a network segment.
+        - `ip link` list network devices | grep "link/ether" | print 2nd arg
+    - **Sudo:**
+        - grep every line which starts with "sudo" from the hidden "bash_history" file | count how many lines
+
+```bash
+#!/bin/bash
+
+MemTotal=$(($(grep 'MemTotal:' /proc/meminfo | tr -dc 0-9) /1000 ))
+MemFree=$(($(grep 'MemFree:' /proc/meminfo | tr -dc 0-9) /1000 ))
+MemUsed=$((${MemTotal} - ${MemFree}))
+
+DiskAvail=$(df -h -BM --total | grep 'total' | awk '{print $4}' | tr -dc 0-9)
+DiskUsed=$(df -h -BM --total | grep 'total' | awk '{print $3}' | tr -dc 0-9)
+DiskTotal=$(((${DiskAvail} + ${DiskUsed}) / 1000))
+DiskPerc=$(df -h --total | grep 'total' | awk '{print $5}')
+
+#CpuUsed=$(top -bn1 | grep "Cpu(s)" | awk '{print $7}' | tr -d -c 0-9)
+CpuUsed=$(mpstat | grep all | awk '{printf("%.1f", 100-$12)}')
+
+LastBoot=$(who -b | awk '{print $3, $4}')
+LVMuse='no'
+LVMcheck=$(lsblk | grep -o 'lvm' | awk 'FNR == 1 {print}')
+if [[ $LVMcheck == *"lvm"* ]];
+then
+        LVMuse="yes"
+fi
+
+TCP=$(ss -s | grep 'TCP' |  awk 'FNR == 2 {print $2}')
+UserLogged=$(users | wc -w)
+IP4=$(hostname -I)
+MAC=$(ip link | grep 'link/ether' | awk '{print $2}')
+SUDO=$(grep '^sudo' ~/.bash_history | wc -l) 
+
+echo -e "\
+|Architecture:\t |$(uname -o)
+|CPU physical:\t |$(grep -c 'physical id' /proc/cpuinfo)
+|CPU virtual:\t |$(grep -c '^processor' /proc/cpuinfo)
+|Memory Usage:\t |${MemUsed}/${MemTotal}MB ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
+|Disk Usage:\t |${DiskUsed}/${DiskTotal}Gb (${DiskPerc})
+|CPU load:\t |${CpuUsed}%
+|Last boot:\t |${LastBoot}
+|LVM use:\t |${LVMuse}
+|Connections TCP:|${TCP} ESTABLISHED
+|User log:\t |${UserLogged}
+|Network:\t |IP ${IP4} (${MAC})
+|Sudo:\t\t |${SUDO} cmd" # | wall
+```
+
+## Cron
+*sourc:* [red head](https://www.redhat.com/sysadmin/linux-cron-command) [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/)
