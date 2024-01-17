@@ -13,6 +13,79 @@ Some commands may start with `#`, it means it should be run as **root** user, wh
 
 ## 01. installation
 
+### 01.01 download debian ISO
+1. follow the [link](https://www.debian.org/distrib/) or goole "install Debian"
+2. under "Download an installation image" click on "**64-bit PC netinst iso**"  
+    - **NOTE:** It has to be the **latest** but **stable** version of Debian!
+
+### 01.02 install a "virtual machince"
+1. open VirtualBox and create a new "virtual machine"
+    - click on "**Tools**" -> "**New**
+2. set the "**name**" and "**operating system**"
+    - **NOTE:** 42 projects: use `/nfs/homes/zkepes/VirtualBox VMs`, replace `zkepes` with your user name (*more space*).
+3. set "**Memory size**" to `1024` MB
+4. set "**Hard disk**"
+5. set "**Hard disk file type**"
+6. set "**Storage on physical hard disk**"
+7. set "**File location and size**"
+
+:::tip take snapshots (backup)
+VB has a feature which allows you to take snapshots. You can later "restore" a previeous stage if things go wrong.  
+Select your "virtual machine" (*e.g. "deb_headless"*) and ...
+**Take a snapshot:** choose "**Current State**" -> click "**Take**".  
+**NOTE:** the "current state" of your VM gets lost if you not take a "snapshot" from it before "restoring"!  
+**Restore a snapshot:** select the "snapshot" you want to restore -> click "**Restore**"  
+:::
+
+ - to start a "virtual machine" -> select "**Current State**"  or a "snapshot" (*if you have created a shapshot*) -> click "**Start**"
+
+### 01.03 install Debian 
+1. start you "virtual machine"
+2. set **Select start-up disk** -> click the "little yellow icon" -> add your Debian installations image (*ISO*)
+3. **installation method:** choose `install` (*use your "arrow keys" to navigate the menu, "ENTER" to confirm*)
+3. **Select a languge:** -> `English`
+4. **Select your location:** -> `United Kingdom`
+5. **Configure the keyboard:** -> `American English` (*keybord in 42 London is "American English"*)
+6. **Configure the network:**  **HOSTname:** -> `zkepes42` (*your 42 login name + "42"*)
+7. **Configure the network:** **Domain name:** -> what ever you like, e.g. `deb`
+8. **Set up usrs and passwords:**
+    - **NOTE:** Note your passwords, use pattern: 10 char long, upper case, lower case, digit, not username! 
+    - **Root password:** -> e.g. `Born2BeRoot`
+    - **Full name for the new user:** e.g. `Zoltan Kepes` (*your full name*)
+    - **Username for your account:** e.g. `zkepes` (*your 42 loging name*)
+    - **Choose a password for the new user:** e.g. `London2023`
+9. **Configure the clock:** (*if you have the wrong time zones -> "**go back**" -> "**Select your location**"*)
+10. **Partition disk:** 
+    - **Partitioning method:** -> `Guided - use entire disk and set up encrypted LVM`
+    - **Select disk to partition:** -> *there should be only one to choose from*
+    - **Partitioning scheme:** -> `Separate /home partition`
+    - -> confirm your settings with `<YES>`
+    - **Encryption passphrase:** -> e.g. `42DiskSpace`
+    - **Amount of volume group ...:** -> leave the sugested setting `8.1 GB`
+    - **Overview:** -> leave the sugested setting `Finish partitioning and write changes to disk`
+        - **Write the changes to disk?** -> `<Yes>`
+11. **Configure the package manager:**
+    - **Scam extra installation media?** -> `<No>`
+    - **Debian archive mirror country:** -> `United Kingdom`
+    - **Debian archive mirror:** -> `deb.debian.org`
+    - **HTTP proxy information:** -> leave blank
+    - **Participate in the package usage survey?:** -> `<No>`
+12. **Software selection:** -> only install `[*] SSH server` and `[*] standard system utilities`
+13. **Configuring grub-pc:**
+    - **Install the GRUB boot loader to your primary drive?:** -> `<Yes>`
+    - **Device for loader installation:** -> `/dev/sda (ata-VBOX_HARDDISK_VB1c` (*there should be only one apart from "Enter device manuallY"*)
+    `
+
+
+
+
+
+    - 
+
+
+
+
+
 - use sgoinfre
 
 ---
@@ -406,8 +479,6 @@ DiskAvail=$(df -h -BM --total | grep 'total' | awk '{print $4}' | tr -dc 0-9)
 DiskUsed=$(df -h -BM --total | grep 'total' | awk '{print $3}' | tr -dc 0-9)
 DiskTotal=$(((${DiskAvail} + ${DiskUsed}) / 1000))
 DiskPerc=$(df -h --total | grep 'total' | awk '{print $5}')
-
-#CpuUsed=$(top -bn1 | grep "Cpu(s)" | awk '{print $7}' | tr -d -c 0-9)
 CpuUsed=$(mpstat | grep all | awk '{printf("%.1f", 100-$12)}')
 
 LastBoot=$(who -b | awk '{print $3, $4}')
@@ -440,4 +511,25 @@ echo -e "\
 ```
 
 ## Cron
-*sourc:* [red head](https://www.redhat.com/sysadmin/linux-cron-command) [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/)
+*sourc:* [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/), [phoenixnap](https://phoenixnap.com/kb/crontab-reboot)
+
+:::note
+- Always use the full path to the job, script, or command you want to run, starting from the root.
+:::
+
+|command | discription|
+|:--- | :---|
+|`sudo crontab -u USERNAME FLAG` | uses the crontab command as the specified user (e.g. root), without the `-u USERNAME` the logged user is used, FLAG detearmens the action|
+|`crontab -e` | open the crontab file as the logged user for editing|
+|`crontab -l` | list all sceduled tasks of the user |
+|`sudo systemctl status cron.service` | check if cron service is enabled|
+|`sudo systemctl enable cron.service` | enable cron service |
+
+1. open crontab for editing (`-e`) and add the following lines:
+```bash shoeLineNumbers
+@reboot         sleep 20 && /usr/local/bin/monitoring.sh
+*/10 * * * *    /usr/local/bin/monitoring.sh
+```
+- **line 1:** runs after boot and user has logged in, `sleep 20` delays action by 20 seconds otherwhise boot process is still ongoing when action is triggered
+- **line 2:** run task every 10 minutes
+2.   in some cases cron service needs to be enabled, run `sudo systemctl enable cron.service`
