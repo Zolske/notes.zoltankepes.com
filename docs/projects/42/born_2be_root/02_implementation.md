@@ -37,10 +37,10 @@ Select your "virtual machine" (*e.g. "deb_headless"*) and ...
 **Restore a snapshot:** select the "snapshot" you want to restore -> click "**Restore**"  
 :::
 
- - to start a "virtual machine" -> select "**Current State**"  or a "snapshot" (*if you have created a shapshot*) -> click "**Start**"
+ - to start a "virtual machine" -> select "**Current State**" (*if you have created a shapshot*) -> click "**Start**"
 
 ### 01.03 install Debian 
-1. start you "virtual machine"
+1. "**start**" you "virtual machine"
 2. set **Select start-up disk** -> click the "little yellow icon" -> add your Debian installations image (*ISO*)
 3. **installation method:** choose `install` (*use your "arrow keys" to navigate the menu, "ENTER" to confirm*)
 3. **Select a languge:** -> `English`
@@ -74,23 +74,39 @@ Select your "virtual machine" (*e.g. "deb_headless"*) and ...
 13. **Configuring grub-pc:**
     - **Install the GRUB boot loader to your primary drive?:** -> `<Yes>`
     - **Device for loader installation:** -> `/dev/sda (ata-VBOX_HARDDISK_VB1c` (*there should be only one apart from "Enter device manuallY"*)
-    `
-
-
-
-
-
-    - 
-
-
-
-
-
-- use sgoinfre
+14. **Finish the installation:** -> `<Continue>`
+    - **NOTE:** If the installation is finished but you can not get out, then click the "x" (*on the top right, VB window*) -> `Power off the machine`
 
 ---
 
-## 02. UFW
+## 02. Set up VirtualBox (VB) 
+
+<details>
+    <summary>Why we need to set up VB?</summary> 
+    Our Guest OS can not be seen by the Host OS even if you use the correct Guest OS IP! To enable a connection we need set up "Port Forwarding" in VB, which works as a router for the Guest OS. We then use our localhost address to send a request to our self which will reach the VB on the specified port (e.g. 2121). Which then uses **N**etwork**A**ddress**T**ranslation to translates our localhost address to the Guest OS IP address.
+</details>
+
+#### Virtual Box Menu
+
+1. right click on the "virtual machine" and choose "**Settings**" -> "**Network**"
+2. choose a free "**Adapter**" and select under "**Attached to:**" "**NAT**"  
+   ![virtualbox settings](./img/vb_settings.png)
+3. under **Advanced** select "**Port Forwarding**"
+   - **Name** can be anything you want - **Host IP** leave blank, VirtualBox knows the Host OS IP - **Host Port** e.g. `2121`, port on which the Host OS is conneting, must be free (use `netstat -lntu` to see which ports are already used e.g.:  
+     `tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN` means port 22 is already taken)
+   - **Guest IP** needs to be the ip of the Guest OS, use `hostname -I` on the Guest machine to find it, should be `10.0.2.15` - **Guest Port** `4242`, the port to wich the Guest OS will be listening, use "4242" because that is the only port which we are allowed to open  
+     ![port forwarding](./img/virbox_portforward.png)  
+     **NOTE:** You need to restart your Guest OS if you make changes in the settings while it is running for the changes to take effect.
+
+## 03. How to start Debian?
+1. in the "VirtualBox" menu: 
+    - select your "virtual machine" ("*deb_headless_server*") -> select "**Current State**" (*if you have created a shapshot*) -> click "**Start**"
+2. -> select `*Degian GNU/Linux` -> **ENTER**
+3. **Please unlock disk sda5_crypt:** -> *enter the password which you have choosen for `Encryption passphrase`* -> `42DiskSpace`  
+    **NOTE:** You can not see any of the characters when you are typing a password in Linux, but they are there.
+4. login with **your** credentials, for now as root (_as long we have not set up **sudo**_): e.g. login: `root` Password: `Born2BeRoot`
+
+## 04. UFW
 
 source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-debian-11-243261243130246d443771547031794d72784e6b36656d4a326e49732e)
 
@@ -109,20 +125,6 @@ Install "ufw" and enable it. After allow port "4242" and check the status.
 
 ## 03. SSH connection
 
-### 03.01 setting up VirtualBox (VB)
-
-Preparing for a SSH connection between the Host OS and the Guest OS.  
-Our Guest OS can not be seen by the Host OS even if you use the correct Guest OS IP! To enable a connection we need set up "Port Forwarding" in VB, which works as a router for the Guest OS. We then use our localhost address to send a request to our self which will reach the VB on the specified port (e.g. 2121). Which then uses **N**etwork**A**ddress**T**ranslation to translates our localhost address to the Guest OS IP address.
-
-1. right click on the "virtual machine" and choose "**Settings**" -> "**Network**"
-2. choose a free "**Adapter**" and select under "**Attached to:**" "**NAT**"  
-   ![virtualbox settings](./img/vb_settings.png)
-3. under **Advanced** select "**Port Forwarding**"
-   - **Name** can be anything you want - **Host IP** leave blank, VirtualBox knows the Host OS IP - **Host Port** e.g. `2121`, port on which the Host OS is conneting, must be free (use `netstat -lntu` to see which ports are already used e.g.:  
-     `tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN` means port 22 is already taken)
-   - **Guest IP** needs to be the ip of the Guest OS, use `hostname -I` on the Guest machine to find it, should be `10.0.2.15` - **Guest Port** `4242`, the port to wich the Guest OS will be listening, use "4242" because that is the only port which we are allowed to open  
-     ![port forwarding](./img/virbox_portforward.png)  
-     **NOTE:** You need to restart your Guest OS if you make changes in the settings while it is running for the changes to take effect.
 
 ### 03.02 preparing the Guest OS
 
