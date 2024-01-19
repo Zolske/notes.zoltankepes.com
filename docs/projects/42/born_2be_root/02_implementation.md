@@ -14,72 +14,91 @@ Some commands may start with `#`, it means it should be run as **root** user, wh
 ## 01. installation
 
 ### 01.01 download debian ISO
+
 1. follow the [link](https://www.debian.org/distrib/) or goole "install Debian"
 2. under "Download an installation image" click on "**64-bit PC netinst iso**"  
-    - **NOTE:** It has to be the **latest** but **stable** version of Debian!
+   ![download  deb image](./img/download_debian_image.png)
+   - **NOTE:** It has to be the **latest** but **stable** version of Debian!
 
-### 01.02 install a "virtual machince"
+### 01.02 install a "virtual machine"
+
 1. open VirtualBox and create a new "virtual machine"
-    - click on "**Tools**" -> "**New**
+   - click on "**Tools**" -> "**New**"
+     ![new virtual machine](./img/new_virtual_box.png)
 2. set the "**name**" and "**operating system**"
-    - **NOTE:** 42 projects: use `/nfs/homes/zkepes/VirtualBox VMs`, replace `zkepes` with your user name (*more space*).
-3. set "**Memory size**" to `1024` MB
-4. set "**Hard disk**"
-5. set "**Hard disk file type**"
-6. set "**Storage on physical hard disk**"
-7. set "**File location and size**"
+   - **NOTE:** 42 projects: use `/nfs/sgoinfre/Perso/zkepes/VirtualBox VMs`, replace `zkepes` with your user name (_more space_).  
+     ![vb path and name](./img/name_and_os.png)
+3. set "**Memory size**" to `1024` MB  
+   ![memory size](./img/memory_size.png)
+4. set "**Hard disk**"  
+   ![hard disk](./img/hard_disk.png)
+5. set "**Hard disk file type**"  
+   ![hard disk file type](./img/hard_disk_file_type.png)
+6. set "**Storage on physical hard disk**"  
+   ![physical hard disk](./img/storage_on_physical_hard_disk.png)
+7. set "**File location and size**"  
+   ![file location and size](./img/file_location_and_size.png)
 
 :::tip take snapshots (backup)
-VB has a feature which allows you to take snapshots. You can later "restore" a previeous stage if things go wrong.  
-Select your "virtual machine" (*e.g. "deb_headless"*) and ...
-**Take a snapshot:** choose "**Current State**" -> click "**Take**".  
+VB has a feature which allows you to take snapshots. You can later "restore" a previous stage if things go wrong.  
+Select your "virtual machine" (_e.g. "deb_headless"_) and ...  
+**Take a snapshot:** choose "**Current State**" -> click "**Take**".
+![take snapshot](./img/take_snapshot.png)  
 **NOTE:** the "current state" of your VM gets lost if you not take a "snapshot" from it before "restoring"!  
 **Restore a snapshot:** select the "snapshot" you want to restore -> click "**Restore**"  
 :::
 
- - to start a "virtual machine" -> select "**Current State**" (*if you have created a shapshot*) -> click "**Start**"
+- to start a "virtual machine" -> select "**Current State**" (_if you have created a snapshot_) -> click "**Start**"
 
-### 01.03 install Debian 
-1. "**start**" you "virtual machine"
-2. set **Select start-up disk** -> click the "little yellow icon" -> add your Debian installations image (*ISO*)
-3. **installation method:** choose `install` (*use your "arrow keys" to navigate the menu, "ENTER" to confirm*)
-3. **Select a languge:** -> `English`
-4. **Select your location:** -> `United Kingdom`
-5. **Configure the keyboard:** -> `American English` (*keybord in 42 London is "American English"*)
-6. **Configure the network:**  **HOSTname:** -> `zkepes42` (*your 42 login name + "42"*)
-7. **Configure the network:** **Domain name:** -> what ever you like, e.g. `deb`
-8. **Set up usrs and passwords:**
-    - **NOTE:** Note your passwords, use pattern: 10 char long, upper case, lower case, digit, not username! 
-    - **Root password:** -> e.g. `Born2BeRoot`
-    - **Full name for the new user:** e.g. `Zoltan Kepes` (*your full name*)
-    - **Username for your account:** e.g. `zkepes` (*your 42 loging name*)
-    - **Choose a password for the new user:** e.g. `London2023`
-9. **Configure the clock:** (*if you have the wrong time zones -> "**go back**" -> "**Select your location**"*)
-10. **Partition disk:** 
+### 01.03 install Debian
+
+1. "**start**" you "virtual machine" (_see ["03. How to start Debian?"](#03-how-to-start-debian)_)
+2. set **Select start-up disk** -> click the "little yellow icon"  
+   ![select start up disk](./img/select_start_up_disk_long.png)  
+   -> add your Debian installations image (_ISO_)  
+   ![add iso](./img/add_iso.png)
+3. **installation method:** choose `install` (_use your "arrow keys" to navigate the menu, "ENTER" to confirm_)
+4. **Select a language:** -> `English`
+5. **Select your location:** -> `United Kingdom`
+6. **Configure the keyboard:** -> `American English` (_keybord in 42 London is "American English"_)
+7. **Configure the network:** **HOSTname:** -> `zkepes42` (_your 42 login name + "42"_)
+8. **Configure the network:** **Domain name:** -> what ever you like, e.g. `deb`
+9. **Set up usrs and passwords:**
+   - **NOTE:** Note your passwords, use pattern: 10 char long, upper case, lower case, digit, not username!
+   - **Root password:** -> e.g. `Born2BeRoot`
+   - **Full name for the new user:** e.g. `Zoltan Kepes` (_your full name_)
+   - **Username for your account:** e.g. `zkepes` (_your 42 loging name_)
+   - **Choose a password for the new user:** e.g. `London2023`
+10. **Configure the clock:** (_if you have the wrong time zones -> "**go back**" -> "**Select your location**"_)
+11. **Partition disk:**
     - **Partitioning method:** -> `Guided - use entire disk and set up encrypted LVM`
-    - **Select disk to partition:** -> *there should be only one to choose from*
+    - **Select disk to partition:** -> _there should be only one to choose from_
     - **Partitioning scheme:** -> `Separate /home partition`
-    - -> confirm your settings with `<YES>`
+    - -> confirm your settings with `<YES>`  
+      ![confirm partitioning](./img/confirm_partiton.png)
     - **Encryption passphrase:** -> e.g. `42DiskSpace`
-    - **Amount of volume group ...:** -> leave the sugested setting `8.1 GB`
-    - **Overview:** -> leave the sugested setting `Finish partitioning and write changes to disk`
-        - **Write the changes to disk?** -> `<Yes>`
-11. **Configure the package manager:**
+    - **Amount of volume group ...:** -> leave the suggested setting `8.1 GB`
+    - **Overview:** -> leave the suggested setting `Finish partitioning and write changes to disk`
+      - **Write the changes to disk?** -> `<Yes>`  
+        ![write changes to disk](./img/write_changes_to_disk.png)
+12. **Configure the package manager:**
     - **Scam extra installation media?** -> `<No>`
     - **Debian archive mirror country:** -> `United Kingdom`
     - **Debian archive mirror:** -> `deb.debian.org`
     - **HTTP proxy information:** -> leave blank
     - **Participate in the package usage survey?:** -> `<No>`
-12. **Software selection:** -> only install `[*] SSH server` and `[*] standard system utilities`
-13. **Configuring grub-pc:**
+13. **Software selection:** -> only install `[*] SSH server` and `[*] standard system utilities` -> confirm with "ENTER"  
+    ![software selection](./img/software_selection.png)
+14. **Configuring grub-pc:**
     - **Install the GRUB boot loader to your primary drive?:** -> `<Yes>`
-    - **Device for loader installation:** -> `/dev/sda (ata-VBOX_HARDDISK_VB1c` (*there should be only one apart from "Enter device manuallY"*)
-14. **Finish the installation:** -> `<Continue>`
-    - **NOTE:** If the installation is finished but you can not get out, then click the "x" (*on the top right, VB window*) -> `Power off the machine`
+    - **Device for loader installation:** -> `/dev/sda (ata-VBOX_HARDDISK_VB1c` (_there should be only one apart from "Enter device manually"_)
+15. **Finish the installation:** -> `<Continue>`
+
+- the OS will reboot, for now just shutdown with the `shutdown` command or click the VB menu (x on the top right) -> "
 
 ---
 
-## 02. Set up VirtualBox (VB) 
+## 02. Set up VirtualBox (VB)
 
 <details>
     <summary>Why we need to set up VB?</summary> 
@@ -91,67 +110,85 @@ Select your "virtual machine" (*e.g. "deb_headless"*) and ...
 1. right click on the "virtual machine" and choose "**Settings**" -> "**Network**"
 2. choose a free "**Adapter**" and select under "**Attached to:**" "**NAT**"  
    ![virtualbox settings](./img/vb_settings.png)
-3. under **Advanced** select "**Port Forwarding**"
-   - **Name** can be anything you want - **Host IP** leave blank, VirtualBox knows the Host OS IP - **Host Port** e.g. `2121`, port on which the Host OS is conneting, must be free (use `netstat -lntu` to see which ports are already used e.g.:  
-     `tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN` means port 22 is already taken)
-   - **Guest IP** needs to be the ip of the Guest OS, use `hostname -I` on the Guest machine to find it, should be `10.0.2.15` - **Guest Port** `4242`, the port to wich the Guest OS will be listening, use "4242" because that is the only port which we are allowed to open  
+3. under **Advanced** select "**Port Forwarding**" -> click the small green button on the side "**Adds new port forwarding rule.**"
+   - **Name** can be anything you want
+   - **Host IP** leave blank, VirtualBox knows the Host OS IP
+   - **Host Port** e.g. `2121`, port on which the Host OS is connecting, must be free (use `netstat -lntu` to see which ports are already used e.g.: `tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN` means port 22 is already taken)
+   - **Guest IP** leave blank, VirtualBox knows the Guest OS IP
+   - **Guest Port** `4242`, the port to which the Guest OS will be listening, use "4242" because that is the only port which we are allowed to open for the project  
      ![port forwarding](./img/virbox_portforward.png)  
      **NOTE:** You need to restart your Guest OS if you make changes in the settings while it is running for the changes to take effect.
 
 ## 03. How to start Debian?
-1. in the "VirtualBox" menu: 
-    - select your "virtual machine" ("*deb_headless_server*") -> select "**Current State**" (*if you have created a shapshot*) -> click "**Start**"
+
+1. in the "VirtualBox" menu:
+   - select your "virtual machine" ("_deb_headless_server_") -> select "**Current State**" (_if you have created a snapshot_) -> click "**Start**"  
+      ![start virtual machine](./img/start_virtual_machine.png)
 2. -> select `*Degian GNU/Linux` -> **ENTER**
-3. **Please unlock disk sda5_crypt:** -> *enter the password which you have choosen for `Encryption passphrase`* -> `42DiskSpace`  
-    **NOTE:** You can not see any of the characters when you are typing a password in Linux, but they are there.
+3. **Please unlock disk sda5_crypt:** -> _enter the password which you have choosen for `Encryption passphrase`_ -> `42DiskSpace`  
+   **NOTE:** You can not see any of the characters when you are typing a password in Linux, but they are there.
 4. login with **your** credentials, for now as root (_as long we have not set up **sudo**_): e.g. login: `root` Password: `Born2BeRoot`
 
 ## 04. UFW
 
 source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-debian-11-243261243130246d443771547031794d72784e6b36656d4a326e49732e)
 
-Install "ufw" and enable it. After allow port "4242" and check the status.
+- update your package list `apt update` and if needed upgrade your packages after with `apt upgrade`
+- Install "ufw" and enable it. After allow port "4242" and check the status.
 
 |     description | command                   |
 | --------------: | :------------------------ |
-|     install ufw | `# apt-get install ufw`   |
+|     install ufw | `# apt install ufw`       |
 |      enable ufw | `# ufw enable`            |
 |     disable ufw | `# ufw disable`           |
 | allow port 4242 | `# ufw allow 4242`        |
 | close port 4242 | `# ufw delete allow 4242` |
 |          verify | `# ufw status verbose`    |
 
+- you should get the following return after running `ufw status verbose`  
+  ![ufw status](./img/ufw_status.png)
+
 ---
 
-## 03. SSH connection
+## 05. SSH connection
 
+### 05.01 preparing the Guest OS
 
-### 03.02 preparing the Guest OS
+1. check if the ssh.service is active (must be active on both machines): `systemctl status ssh`  
+    ![active status ssh](./img/status_ssh.png)
+   <details>
+      <summary>How set up SSH service if not active?</summary>
+      <h2>Command not found</h2>
+     You need to install it <b>OpenSSH</b> (you can install client and server on both OS):
+      <ul>
+         <li>client for the Host OS (Ubuntu): <code>apt install openssh-client</code></li>
+         <li>server for the Guest OS (Debian): <code>apt install openssh-server</code></li>
+      </ul>
+      <h2>Service not active</h2>
+      <ul>
+         <li>activate service: <code>sudo systemctl start sshd</code></li>
+         <li>enable it to run after booting: <code>sudo systemctl enable sshd</code></li>
+      </ul>
+   </details>
 
-1. check if the ssh.service is active (must be active on both machines): `systemctl status ssh`
-   - if not then start it: `sudo systemctl start sshd`
-   - enable it to run after booting: `sudo systemctl enable sshd`
-   - otherwise you need to install it **OpenSSH** (you could also install client and server on both OS):
-     - client for the Host OS: `apt install openssh-client`
-     - server for the Guest OS: `apt install openssh-server`
-2. change the default port (22) to which the sshd server is listening to:
+2. change the default port (22) to which the "sshd server" is listening to "**4242**":
    - open:`nano /etc/ssh/sshd_config`
    - change `Port 22` to `Port 4242`
    - after making any changes we need to reload: `systemctl reload ssh`
 
-### 03.03 connect from Host OS
+### 05.02 connect from Host OS
 
 #### connecting to a ssh server which is NOT a VirtualBox
 
 In that case we would not send a request to ourself, but to the IP address to where we want to connect to.
 
-| ssh command | port (lowercalse p) for connection | name of user we want to connect to | at  | IP address **to where we want to connect to** |
-| :---------: | :--------------------------------: | :--------------------------------: | --- | --------------------------------------------- |
-|    `ssh`    |             `-p` 9999              |              USERNAME              | `@` | SERVER_IP                                     |
+| ssh command | port (lowercase p) for connection | name of user we want to connect to | at  | IP address **to where we want to connect to** |
+| :---------: | :-------------------------------: | :--------------------------------: | --- | --------------------------------------------- |
+|    `ssh`    |             `-p` 9999             |              USERNAME              | `@` | SERVER_IP                                     |
 
 #### connecting to a ssh server which IS a VirtualBox
 
-We can not conncet direct to the server, we need to send a request to our self (VirtualBox) which will be translated to the address of the server.
+We can not connect direct to the server, we need to send a request to our self (VirtualBox) which will be translated to the address of the server.
 
 | ssh command | port (lowercalse p) for connection, if no port is specified then port "22"is assumed" | name of user we want to connect to | at  | Host OS IP address, can be replaced with the keyword `localhost` |
 | :---------: | :-----------------------------------------------------------------------------------: | :--------------------------------: | --- | ---------------------------------------------------------------- |
@@ -278,7 +315,7 @@ Maybe you need to log in and out (`su`) for the **/etc/passwd** and **etc/group*
 
 We are going to use the `adduser` command to create new users.
 
-1. check if you need to install `adduser --version`, if yes then install `apt-get install adduser`
+1. check if you need to install `adduser --version`, if yes then install `apt install adduser`
 
 #### create, delete, see user:
 
@@ -348,7 +385,7 @@ Temporarily grant users or user groups privileged access to system resources so 
 
 ### 06.01 setup and user assignment
 
-1. check if you need to install `sudo --version`, if yes then install `apt-get install sudo`
+1. check if you need to install `sudo --version`, if yes then install `apt install sudo`
 
 #### adding, removing and seeing which user is in a group:
 
@@ -406,8 +443,9 @@ Specifies whether a terminal is required for a user to run commands with sudo. W
 
 ## Broadcast "System Status" Message
 
-- **Architecture:** `uname -a`  
-    - `uname` print system information  
+- **Architecture:** `uname -a`
+
+  - `uname` print system information  
     | flag | discription | example |
     | :--- | :--- | :--- |
     |`-a` |all other flags except `-p -i` if unknown | |
@@ -419,56 +457,56 @@ Specifies whether a terminal is required for a user to run commands with sudo. W
     |`-o` |operating system | `GNU/Linux` |
 
 - **CPU physical:** from the `/proc/cpuinfo` file
-    - we simply `-c` count how many 'physical ids' there are to know how many physical CPUs we have.
-    -  `grep -c 'physical id' /proc/cpuinfo`
+  - we simply `-c` count how many 'physical ids' there are to know how many physical CPUs we have.
+  - `grep -c 'physical id' /proc/cpuinfo`
 - **CPU virtual:** from the `/proc/cpuinfo` file
-    - we simply `-c` count how many `^` lines start with `processor` 
-    -  `grep -c '^processor' /proc/cpuinfo`
-    <details>
-    <summery>What is a "Virual Processor"?</summery>
-        <p>
-            The virtualized representation of a physical processor within a virtual machine. It doesn't exist as a separate physical entity but is emulated by the hypervisor (virtualization software).
-        </p>
-        <p>
-            Hypervisor: Also known as a Virtual Machine Monitor (VMM), the hypervisor is the software layer that sits between the physical hardware and the virtual machines. It manages and allocates physical resources to VMs, including virtual processors.
-        </p>
-        <p>
-            Guest Operating System: The operating system running within a virtual machine.
-        </p>
-        <p>
-            In a virtualized environment, multiple VMs can run simultaneously on the same physical hardware, sharing the resources of the host machine. Each VM believes it has its own dedicated set of hardware, including one or more virtual processors.
-        </p>
-        <p>
-            The hypervisor is responsible for managing the scheduling of virtual processors, ensuring that each VM gets a fair share of CPU time. It translates the instructions from the virtual processors to the corresponding instructions that can be executed on the actual physical processors.
-        </p>
-    </details>
+
+  - we simply `-c` count how many `^` lines start with `processor`
+  - `grep -c '^processor' /proc/cpuinfo`
+  <details>
+  <summery>What is a "Virual Processor"?</summery>
+      <p>
+          The virtualized representation of a physical processor within a virtual machine. It doesn't exist as a separate physical entity but is emulated by the hypervisor (virtualization software).
+      </p>
+      <p>
+          Hypervisor: Also known as a Virtual Machine Monitor (VMM), the hypervisor is the software layer that sits between the physical hardware and the virtual machines. It manages and allocates physical resources to VMs, including virtual processors.
+      </p>
+      <p>
+          Guest Operating System: The operating system running within a virtual machine.
+      </p>
+      <p>
+          In a virtualized environment, multiple VMs can run simultaneously on the same physical hardware, sharing the resources of the host machine. Each VM believes it has its own dedicated set of hardware, including one or more virtual processors.
+      </p>
+      <p>
+          The hypervisor is responsible for managing the scheduling of virtual processors, ensuring that each VM gets a fair share of CPU time. It translates the instructions from the virtual processors to the corresponding instructions that can be executed on the actual physical processors.
+      </p>
+  </details>
 
 - **Memory Usage:** from the `/proc/meminfo` file
-    - **MemUsed:** `MemTotal - MemFree`
-    - **MemTotal:** `grep 'MemTotal:' /proc/meminfo | tr -dc 0-9) /1000`
-        - grep the line "MemTotal" and delete everything except digits, divide to get MB
-    - **MemFree:** `grep 'MemFree:' /proc/meminfo | tr -dc 0-9) /1000`
-        - grep the line "MemFree" and delete everything except digits, divide to get MB
-        ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
-    - for the %, calculate and print the result when echoing, because floats are dificult to safe in bash script
-        - the free command contains the info | grep line "Mem" | awk to "printf" calculation as float  
-- **Disk Usage:**
-        - use `df` with `-h` human readable and `--total` flag to get disk info | grep line "total" | print 4th arg | remove everthing except digits
-- **CPU load:** use `mpstat` (`sudo apt-get install sysstat`)
-    - to get the opposite of the idle state we just subtract 100 
+  - **MemUsed:** `MemTotal - MemFree`
+  - **MemTotal:** `grep 'MemTotal:' /proc/meminfo | tr -dc 0-9) /1000`
+    - grep the line "MemTotal" and delete everything except digits, divide to get MB
+  - **MemFree:** `grep 'MemFree:' /proc/meminfo | tr -dc 0-9) /1000`
+    - grep the line "MemFree" and delete everything except digits, divide to get MB
+      ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 \* 100.0) }')")%)
+  - for the %, calculate and print the result when echoing, because floats are dificult to safe in bash script
+    - the free command contains the info | grep line "Mem" | awk to "printf" calculation as float
+- **Disk Usage:** - use `df` with `-h` human readable and `--total` flag to get disk info | grep line "total" | print 4th arg | remove everthing except digits
+- **CPU load:** use `mpstat` (`sudo apt install sysstat`)
+  - to get the opposite of the idle state we just subtract 100
 - **LastBoot:**
-    - the `who` command returns info about the logged user, `-b` is for last boot time
+  - the `who` command returns info about the logged user, `-b` is for last boot time
 - **LVM use:**
-    - **LVMcheck:**
-        `lsblk` command displays block devices and partitions | only grep if you find "lvm" | `FNR` use first record
-        - check if the variable contains string "lvm", if yes then overwrite **LVMuse** with "yes, otherwise the value "no" is not changed
+  - **LVMcheck:**
+    `lsblk` command displays block devices and partitions | only grep if you find "lvm" | `FNR` use first record
+    - check if the variable contains string "lvm", if yes then overwrite **LVMuse** with "yes, otherwise the value "no" is not changed
 - **Connections TCP:** `ss` displaies info about system network connections (TCP/IP), `-s` summery | use 2nd record and print 2nd arg
 - **User log:**
-    - **IP4** `hostname -I` returns IP (network) address
-    - **MAC** (**m**edium **a**ccess **c**ontrol address) is a unique identifier assigned to a network interface controller for use as a network address in communications within a network segment.
-        - `ip link` list network devices | grep "link/ether" | print 2nd arg
-    - **Sudo:**
-        - grep every line which starts with "sudo" from the hidden "bash_history" file | count how many lines
+  - **IP4** `hostname -I` returns IP (network) address
+  - **MAC** (**m**edium **a**ccess **c**ontrol address) is a unique identifier assigned to a network interface controller for use as a network address in communications within a network segment.
+    - `ip link` list network devices | grep "link/ether" | print 2nd arg
+  - **Sudo:**
+    - grep every line which starts with "sudo" from the hidden "bash_history" file | count how many lines
 
 ```bash
 #!/bin/bash
@@ -495,7 +533,7 @@ TCP=$(ss -s | grep 'TCP' |  awk 'FNR == 2 {print $2}')
 UserLogged=$(users | wc -w)
 IP4=$(hostname -I)
 MAC=$(ip link | grep 'link/ether' | awk '{print $2}')
-SUDO=$(grep '^sudo' ~/.bash_history | wc -l) 
+SUDO=$(grep '^sudo' ~/.bash_history | wc -l)
 
 echo -e "\
 |Architecture:\t |$(uname -o)
@@ -513,25 +551,30 @@ echo -e "\
 ```
 
 ## Cron
-*sourc:* [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/), [phoenixnap](https://phoenixnap.com/kb/crontab-reboot)
+
+_sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/), [phoenixnap](https://phoenixnap.com/kb/crontab-reboot)
 
 :::note
-- Always use the full path to the job, script, or command you want to run, starting from the root.
-:::
 
-|command | discription|
-|:--- | :---|
-|`sudo crontab -u USERNAME FLAG` | uses the crontab command as the specified user (e.g. root), without the `-u USERNAME` the logged user is used, FLAG detearmens the action|
-|`crontab -e` | open the crontab file as the logged user for editing|
-|`crontab -l` | list all sceduled tasks of the user |
-|`sudo systemctl status cron.service` | check if cron service is enabled|
-|`sudo systemctl enable cron.service` | enable cron service |
+- Always use the full path to the job, script, or command you want to run, starting from the root.
+  :::
+
+| command                              | discription                                                                                                                               |
+| :----------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| `sudo crontab -u USERNAME FLAG`      | uses the crontab command as the specified user (e.g. root), without the `-u USERNAME` the logged user is used, FLAG detearmens the action |
+| `crontab -e`                         | open the crontab file as the logged user for editing                                                                                      |
+| `crontab -l`                         | list all sceduled tasks of the user                                                                                                       |
+| `sudo systemctl status cron.service` | check if cron service is enabled                                                                                                          |
+| `sudo systemctl enable cron.service` | enable cron service                                                                                                                       |
 
 1. open crontab for editing (`-e`) and add the following lines:
+
 ```bash shoeLineNumbers
 @reboot         sleep 20 && /usr/local/bin/monitoring.sh
 */10 * * * *    /usr/local/bin/monitoring.sh
 ```
+
 - **line 1:** runs after boot and user has logged in, `sleep 20` delays action by 20 seconds otherwhise boot process is still ongoing when action is triggered
 - **line 2:** run task every 10 minutes
-2.   in some cases cron service needs to be enabled, run `sudo systemctl enable cron.service`
+
+2.  in some cases cron service needs to be enabled, run `sudo systemctl enable cron.service`
