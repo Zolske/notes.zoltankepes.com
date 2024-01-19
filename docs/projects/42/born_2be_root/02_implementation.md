@@ -457,11 +457,15 @@ _after creating the "user42" group and adding the user "zkepes" to it_
 
 ## Broadcast "System Status" Message
 
+- create for the project the **monitoring.sh** file and save it under **/usr/local/bin/monitoring.sh** with the content from below.
+- install `mpstat` for the "CPU load" statistic: `sudo apt install sysstat`
+- change the permissions for the file: `chmod 777 monitoring.sh`
+
 - **Architecture:** `uname -a`
 
   - `uname` print system information
 
-    | flag | discription                               | example                                               |
+    | flag | description                               | example                                               |
     | :--- | :---------------------------------------- | :---------------------------------------------------- |
     | `-a` | all other flags except `-p -i` if unknown |                                                       |
     | `-s` | kernel name                               | `Linux`                                               |
@@ -479,7 +483,7 @@ _after creating the "user42" group and adding the user "zkepes" to it_
   - we simply `-c` count how many `^` lines start with `processor`
   - `grep -c '^processor' /proc/cpuinfo`
   <details>
-  <summery>What is a "Virual Processor"?</summery>
+  <summery>What is a "Virtual Processor"?</summery>
       <p>
           The virtualized representation of a physical processor within a virtual machine. It doesn't exist as a separate physical entity but is emulated by the hypervisor (virtualization software).
       </p>
@@ -506,7 +510,7 @@ _after creating the "user42" group and adding the user "zkepes" to it_
       `($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 \* 100.0) }')")%)`
   - for the %, calculate and print the result when echoing, because floats are difficult to safe in bash script
     - the `free` command contains the info `| grep line "Mem" | awk to "printf"` calculation as float
-- **Disk Usage:** - use `df` with `-h` human readable and `--total` flag to get disk info `| grep line "total" | print 4th arg |` remove everthing except digits
+- **Disk Usage:** - use `df` with `-h` human readable and `--total` flag to get disk info `| grep line "total" | print 4th arg |` remove everything except digits
 - **CPU load:** use `mpstat` (`sudo apt install sysstat`)
   - to get the opposite of the idle state we just subtract 100
 - **LastBoot:**
@@ -548,10 +552,11 @@ TCP=$(ss -s | grep 'TCP' |  awk 'FNR == 2 {print $2}')
 UserLogged=$(users | wc -w)
 IP4=$(hostname -I)
 MAC=$(ip link | grep 'link/ether' | awk '{print $2}')
-SUDO=$(grep '^sudo' ~/.bash_history | wc -l)
+#SUDO=$(grep '^sudo' ~/.bash_history | wc -l)
+SUDO=$(grep USER=root /var/log/sudo/sudo.log | wc -l)
 
 echo -e "\
-|Architecture:   |$(uname -o)
+|Architecture:   |$(uname -a)
 |CPU physical:   |$(grep -c 'physical id' /proc/cpuinfo)
 |CPU virtual:    |$(grep -c '^processor' /proc/cpuinfo)
 |Memory Usage:   |${MemUsed}/${MemTotal}MB ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
