@@ -552,7 +552,6 @@ TCP=$(ss -s | grep 'TCP' |  awk 'FNR == 2 {print $2}')
 UserLogged=$(users | wc -w)
 IP4=$(hostname -I)
 MAC=$(ip link | grep 'link/ether' | awk '{print $2}')
-#SUDO=$(grep '^sudo' ~/.bash_history | wc -l)
 SUDO=$(grep USER=root /var/log/sudo/sudo.log | wc -l)
 
 echo -e "\
@@ -567,7 +566,7 @@ echo -e "\
 |Connections TCP:|${TCP} ESTABLISHED
 |User log:       |${UserLogged}
 |Network:        |IP ${IP4} (${MAC})
-|Sudo:           |${SUDO} cmd" # | wall
+|Sudo:           |${SUDO} cmd"
 ```
 
 ## Cron
@@ -591,12 +590,13 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 1. open crontab for editing (`-e`) and add the following lines:
 
 ```bash shoeLineNumbers
-@reboot         sleep 20 && /usr/local/bin/monitoring.sh
-*/10 * * * *    /usr/local/bin/monitoring.sh
+@reboot         sleep 20 && /usr/local/bin/monitoring.sh | wall
+*/10 * * * *    /usr/local/bin/monitoring.sh | wall
 ```
 
 - **line 1:** runs after boot and user has logged in, `sleep 20` delays action by 20 seconds otherwhise boot process is still ongoing when action is triggered
 - **line 2:** run task every 10 minutes
+- **wall:** stands for **w**rite **all**, displays a message on the terminals of all logged-in users (_source: [linuxize](https://linuxize.com/post/wall-command-in-linux/)_)
 
 2.  in some cases cron service needs to be enabled, run `sudo systemctl enable cron.service`
 
@@ -604,8 +604,10 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 
 ## Configure a static hostname
 
-| command                             | description                                                                                                                |
-| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `hostname`                          | displays the hostname                                                                                                      |
-| `hostname NEW_NAME`                 | modify the system's name temporarily (_till next reboot_) to **NEW_NAME**                                                  |
-| `hostnamectl set-hostname NEW_NAME` | permanently changes the hostname to **NEW_NAME** in the **/etc/hostname** file (_you could also manually change it there_) |
+| command                             | description                                                                                                                                                                      |
+| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hostname`                          | displays the hostname                                                                                                                                                            |
+| `hostname NEW_NAME`                 | modify the system's name temporarily (_till next reboot_) to **NEW_NAME**                                                                                                        |
+| `hostnamectl set-hostname NEW_NAME` | permanently changes the hostname to **NEW_NAME** in the **/etc/hostname** file (_you could also manually change it there but the change would be only applied after restarting_) |
+
+- _NOTE: the hostname changes for the terminal "bar" after restarting._
