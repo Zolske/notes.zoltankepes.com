@@ -26,8 +26,8 @@ Some commands may start with `#`, it means it should be run as **root** user, wh
    - click on "**Tools**" -> "**New**"
      ![new virtual machine](./img/new_virtual_box.png)
 2. set the "**name**" and "**operating system**"
-   - **NOTE:** 42 projects: use `/nfs/sgoinfre/Perso/zkepes/VirtualBox VMs`, replace `zkepes` with your user name (_more space_).  
-     ![vb path and name](./img/name_and_os.png)
+   - **NOTE:** 42 projects: use `/nfs/sgoinfre/goinfre/Perso/zkepes/VirtualBox VMs`, replace `zkepes` with your user name (_more space_).  
+     ![vb path and name](./img/update_path_for_vm.png)
 3. set "**Memory size**" to `1024` MB  
    ![memory size](./img/memory_size.png)
 4. set "**Hard disk**"  
@@ -48,7 +48,7 @@ Select your "virtual machine" (_e.g. "deb_headless"_) and ...
 **Restore a snapshot:** select the "snapshot" you want to restore -> click "**Restore**"  
 :::
 
-- to start a "virtual machine" -> select "**Current State**" (_if you have created a snapshot_) -> click "**Start**"
+- to start a "virtual machine" -> select "**Current State**" -> click "**Start**"
 
 ### 01.03 install Debian
 
@@ -69,8 +69,7 @@ Select your "virtual machine" (_e.g. "deb_headless"_) and ...
    - **Full name for the new user:** e.g. `Zoltan Kepes` (_your full name_)
    - **Username for your account:** e.g. `zkepes` (_your 42 loging name_)
    - **Choose a password for the new user:** e.g. `London2023`
-10. **Configure the clock:** (_if you have the wrong time zones -> "**go back**" -> "**Select your location**"_)
-11. **Partition disk:**
+10. **Partition disk:**
     - **Partitioning method:** -> `Guided - use entire disk and set up encrypted LVM`
     - **Select disk to partition:** -> _there should be only one to choose from_
     - **Partitioning scheme:** -> `Separate /home partition`
@@ -81,18 +80,18 @@ Select your "virtual machine" (_e.g. "deb_headless"_) and ...
     - **Overview:** -> leave the suggested setting `Finish partitioning and write changes to disk`
       - **Write the changes to disk?** -> `<Yes>`  
         ![write changes to disk](./img/write_changes_to_disk.png)
-12. **Configure the package manager:**
+11. **Configure the package manager:**
     - **Scam extra installation media?** -> `<No>`
     - **Debian archive mirror country:** -> `United Kingdom`
     - **Debian archive mirror:** -> `deb.debian.org`
     - **HTTP proxy information:** -> leave blank
     - **Participate in the package usage survey?:** -> `<No>`
-13. **Software selection:** -> only install `[*] SSH server` and `[*] standard system utilities` -> confirm with "ENTER"  
+12. **Software selection:** -> only install `[*] SSH server` and `[*] standard system utilities` -> confirm with "ENTER"  
     ![software selection](./img/software_selection.png)
-14. **Configuring grub-pc:**
+13. **Configuring grub-pc:**
     - **Install the GRUB boot loader to your primary drive?:** -> `<Yes>`
     - **Device for loader installation:** -> `/dev/sda (ata-VBOX_HARDDISK_VB1c` (_there should be only one apart from "Enter device manually"_)
-15. **Finish the installation:** -> `<Continue>`
+14. **Finish the installation:** -> `<Continue>`
 
 - the OS will reboot, for now just shutdown with the `shutdown` command or click the VB menu (x on the top right) -> "
 
@@ -102,7 +101,7 @@ Select your "virtual machine" (_e.g. "deb_headless"_) and ...
 
 <details>
     <summary>Why we need to set up VB?</summary> 
-    Our Guest OS can not be seen by the Host OS even if you use the correct Guest OS IP! To enable a connection we need set up "Port Forwarding" in VB, which works as a router for the Guest OS. We then use our localhost address to send a request to our self which will reach the VB on the specified port (e.g. 2121). Which then uses **N**etwork**A**ddress**T**ranslation to translates our localhost address to the Guest OS IP address.
+    Our Guest OS can not be seen by the Host OS even if you use the correct Guest OS IP! To enable a connection we need set up "Port Forwarding" in VB, which works as a router for the Guest OS. We then use our localhost address to send a request to our self which will reach the VB on the specified port (e.g. 2121). Which then uses <b>N</b>etwork<b>A</b>ddress<b>T</b>ranslation to translates our localhost address to the Guest OS IP address.
 </details>
 
 #### Virtual Box Menu
@@ -221,7 +220,7 @@ Host key for [10.11.4.8]:4242 has changed and you have requested strict checking
 Host key verification failed.
 ```
 
-- But for the scope of this project, you can just go to `/nfs/homes/zkepes/.ssh/known_hosts` and delete line `:8` (_your path_) and it run again
+- But for the scope of this project, you can just go to `/nfs/homes/zkepes/.ssh/known_hosts` and delete line `:8` (_your path_) and it run again or just use the command stated in the message `ssh-keygen -f "/nfs/homes/zkepes/.ssh/known_hosts" -R "[10.11.4.8]:4242"`
 
 ## 03.04 copy files over an SSH server
 
@@ -303,7 +302,76 @@ password   [success=1 default=ignore]   pam_unix.so obscure use_authtok  try_fir
 
 ---
 
-## 05. Users and Groups
+## 05. Sudo
+
+_source:_ [techtarget](https://www.techtarget.com/searchsecurity/definition/sudo-superuser-do) [hostinger](https://www.hostinger.co.uk/tutorials/sudo-and-the-sudoers-file/#:~:text=If%20we%20use%20the%20grep,just%20add%20them%20to%20sudo.&text=The%20deluser%20command%20will%20remove,actions%20that%20require%20sudo%20privileges.)
+
+:::info What is Sudo
+Temporarily grant users or user groups privileged access to system resources so that they can run commands that they cannot run under their regular accounts. Sudo also logs all commands and arguments so that administrators can track the behavior of sudo users. <b>Sudo</b> stands for `su` (the command itself allows to <b>s</b>witch <b>u</b>ser) and <b>do</b>.
+:::
+
+### 05.01 setup and user assignment
+
+1. check if you need to install `sudo --version`, if yes then install `apt install sudo`
+
+#### adding, removing and seeing which user is in a group:
+
+Sudo is treated like a group.
+
+:::caution sudo power
+Be carful, adding a user to the “sudo” group gives them the same privileges as root by default. (_You can configure user rights individually in **/etc/sudoers**_).
+
+```bash title="/etc/sudoers"
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+```
+
+:::
+
+| command                    | description                                   |
+| :------------------------- | :-------------------------------------------- |
+| `apt install sudo`         | install sudo                                  |
+| `grep sudo /etc/group`     | list all users which belong to the Sudo group |
+| `sudo adduser zkepes sudo` | add the user "zkepes" to the sudo group       |
+| `sudo deluser zkepes sudo` | remove user "zkepes" from the sudo group      |
+
+### 05.02 Sudo Settings and Privileges
+
+_source:_ [sudo.ws](https://www.sudo.ws/docs/man/1.8.18/sudoers.man/)  
+The **sudoers plugin** of sudo has many options to control the permissions context for a given command, user, or session.
+
+1. change or adjust group privileges in the **/etc/sudoers** file
+   - **sudoers** is read-only, you should use `sudo visudo /etc/sudoers` to make changes, **visudo** provides additional checking, but some text editors let you write changes anyway.
+2. add or change the following lines:
+
+   | command                                                                                          | description                                                                                                                                               |
+   | :----------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | `Defaults badpass_message="Password is wrong, try again"`                                        | default error message if user enters wrong password                                                                                                       |
+   | `Defaults logfile=”/var/log/sudo/sudo.log”`                                                      | un- or successful sudo attempts are logged in that file. NOTE: You may have to create the folder "sudo" for the path if it not exist.                     |
+   | `Defaults requiretty`                                                                            | sudo will only run when the user is logged in to a real tty session                                                                                       |
+   | `Defaults passwd_tries=3`                                                                        | The number of tries a user gets to enter his password before sudo logs the failure and exits.                                                             |
+   | `Defaults secure_path= ”/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin”` | Only the environment variable at that path can be used when sudo is run. Meaning that only programs which are installed at that location can be executed. |
+
+   _NOTE: A user is created even when the password setup fails. But the user will not have a password and can not log in (only root can help)._
+
+#### requiretty
+
+Specifies whether a terminal is required for a user to run commands with sudo. When requiretty is enabled, it means that users must run sudo commands from a terminal session, and they cannot use sudo in contexts where no terminal is available, such as in certain scripts or cron jobs.
+
+#### secure_path
+
+_source:_ [askubuntu](https://askubuntu.com/questions/924037/which-could-be-the-risks-to-add-defaults-secure-path-home-username-in-etc)  
+When a program is called, Linux looks in the "**environment-variable: PATH**" for it. It reads the path **from left to right** and stops looking as soon as it finds the program.
+The **secure_path** setting restricts the "**environment-variable: PATH**" when **sudo** is called. The folders in that path should be write restricted, to prevent a malicious programs from being saved there.
+
+- _example:_ If a malicious program with the name "**apt**" where placed in a folder which comes before the folder of the real **apt** then it would be executed before the real one when you run for example `sudo apt update`.
+- _tip:_ the `whereis` command shows you where a program is installed
+
+---
+
+## 06. Users and Groups
 
 :::caution NOTE
 
@@ -311,7 +379,7 @@ Maybe you need to log in and out (`su`) for the **/etc/passwd** and **etc/group*
 
 :::
 
-### 05.01 users
+### 06.01 users
 
 We are going to use the `adduser` command to create new users.
 
@@ -347,21 +415,30 @@ Linux supports two types of users: **system users** and **regular users**. Syste
 
 :::
 
-### 05.02 groups
+### 06.02 groups
 
 _source:_ [nixCraft](https://www.cyberciti.biz/faq/understanding-etcgroup-file/)  
 Unix file system permissions are organized into three classes, **user**, **group**, and **others**. The use of groups allows additional abilities to be delegated in an organized fashion, such as access to disks, printers, and other peripherals.
 
 #### create, delete, see groups:
 
-| command                                                                      | description                                      |
-| :--------------------------------------------------------------------------- | :----------------------------------------------- |
-| `groups`                                                                     | see which groups the "logged in user" belongs to |
-| `less /etc/group` _or_ `getent group`                                        | see all groups and its members                   |
-| `# groupadd GROUP_NAME`                                                      | creating a new group                             |
-| `# groupdel GROUP_NAME`                                                      | delete group                                     |
-| `# usermod -a -G GROUP_NAME USER_NAME` _or_ `# adduser USER_NAME GROUP_NAME` | add user to group                                |
-| `# usermod -r -G GROUP_NAME USER_NAME`                                       | remove user from group                           |
+| command                                                                            | description                                      |
+| :--------------------------------------------------------------------------------- | :----------------------------------------------- |
+| `groups`                                                                           | see which groups the "logged in user" belongs to |
+| `less /etc/group` _or_ `getent group`                                              | see all groups and its members                   |
+| `sudo groupadd GROUP_NAME`                                                         | creating a new group                             |
+| `sudo groupdel GROUP_NAME`                                                         | delete group                                     |
+| `sudo usermod -a -G GROUP_NAME USER_NAME` _or_ `sudo adduser USER_NAME GROUP_NAME` | add user to group                                |
+| `sudo usermod -r -G GROUP_NAME USER_NAME`                                          | remove user from group                           |
+
+#### user42 group
+
+Follow the steps below for the project:
+
+1. create the **user42** group: `sudo groupadd user42`
+2. add your user to it: `sudo adduser zkepes user42`
+3. check the groups: `less /etc/groups`
+   - the output should be something like that: `user42:x:1002:zkepes`
 
 #### content of the /etc/group file
 
@@ -378,83 +455,21 @@ _after creating the "user42" group and adding the user "zkepes" to it_
 
 ---
 
-## 06. Sudo
-
-_source:_ [techtarget](https://www.techtarget.com/searchsecurity/definition/sudo-superuser-do) [hostinger](https://www.hostinger.co.uk/tutorials/sudo-and-the-sudoers-file/#:~:text=If%20we%20use%20the%20grep,just%20add%20them%20to%20sudo.&text=The%20deluser%20command%20will%20remove,actions%20that%20require%20sudo%20privileges.)  
-Temporarily grant users or user groups privileged access to system resources so that they can run commands that they cannot run under their regular accounts. Sudo also logs all commands and arguments so that administrators can track the behavior of sudo users. **Sudo** stands for `su` (the command itself allows to **s**witch **u**ser) and **do**.
-
-### 06.01 setup and user assignment
-
-1. check if you need to install `sudo --version`, if yes then install `apt install sudo`
-
-#### adding, removing and seeing which user is in a group:
-
-Sudo is treated like a group.
-
-:::caution sudo power
-Be carful, adding a user to the “sudo” group gives them the same privileges as root by default (adjust settings).
-
-```bash title="/etc/sudoers"
-# User privilege specification
-root    ALL=(ALL:ALL) ALL
-# Allow members of group sudo to execute any command
-%sudo   ALL=(ALL:ALL) ALL
-```
-
-:::
-
-| command                 | description                                   |
-| :---------------------- | :-------------------------------------------- |
-| `grep sudo /etc/group`  | list all users which belong to the Sudo group |
-| `# adduser zkepes sudo` | add the user "zkepes" to the sudo group       |
-| `# deluser zkepes sudo` | remove user "zkepes" from the sudo group      |
-
-### 06.02 Sudo Settings and Privileges
-
-_source:_ [sudo.ws](https://www.sudo.ws/docs/man/1.8.18/sudoers.man/)  
-The **sudoers plugin** of sudo has many options to control the permissions context for a given command, user, or session.
-
-1. change or adjust group privileges in the **/etc/sudoers** file
-   - **sudoers** is read-only, you should use `sudo visudo /etc/sudoers` to make changes, **visudo** provides additional checking, but some text editors let you write changes anyway.
-2. add or change the following lines:
-
-   | command                                                                                          | description                                                                                                                                               |
-   | :----------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | `Defaults badpass_message="Password is wrong, try again"`                                        | default error message if user enters wrong password                                                                                                       |
-   | `Defaults logfile=”/var/log/sudo/sudo.log”`                                                      | un- or successful sudo attempts are logged in that file.                                                                                                  |
-   | `Defaults requiretty`                                                                            | sudo will only run when the user is logged in to a real tty session                                                                                       |
-   | `Defaults passwd_tries=3`                                                                        | The number of tries a user gets to enter his password before sudo logs the failure and exits.                                                             |
-   | `Defaults secure_path= ”/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin”` | Only the environment variable at that path can be used when sudo is run. Meaning that only programs which are installed at that location can be executed. |
-
-#### secure_path
-
-_source:_ [askubuntu](https://askubuntu.com/questions/924037/which-could-be-the-risks-to-add-defaults-secure-path-home-username-in-etc)  
-When a program is called, Linux looks in the "**environment-variable: PATH**" for it. It reads the path **from left to right** and stops looking as soon as it finds the program.
-The **secure_path** setting restricts the "**environment-variable: PATH**" when **sudo** is called. The folders in that path should be write restricted, to prevent a malicious program from being saved there.
-
-- _example:_ If a malicious program with the name "**apt**" where placed in a folder which comes before the folder of the real **apt** then it would be executed before the real one when you run for example `sudo apt update`.
-- _tip:_ the `whereis` command shows you where a program is installed
-
-#### requiretty
-
-Specifies whether a terminal is required for a user to run commands with sudo. When requiretty is enabled, it means that users must run sudo commands from a terminal session, and they cannot use sudo in contexts where no terminal is available, such as in certain scripts or cron jobs.
-
----
-
 ## Broadcast "System Status" Message
 
 - **Architecture:** `uname -a`
 
-  - `uname` print system information  
-    | flag | discription | example |
-    | :--- | :--- | :--- |
-    |`-a` |all other flags except `-p -i` if unknown | |
-    |`-s` |kernel name | `Linux` |
-    |`-n` |network node hostname | `zkepes` |
-    |`-r` |kernel release | `6.1.0-17-amd64` |
-    |`-v` |kernel version | `#1 SMP PREEMPT_DYNAMIC Debian 6.1.69-1 (2023-12-30)`|
-    |`-m` |machine hardware name | `x86_64` |
-    |`-o` |operating system | `GNU/Linux` |
+  - `uname` print system information
+
+    | flag | discription                               | example                                               |
+    | :--- | :---------------------------------------- | :---------------------------------------------------- |
+    | `-a` | all other flags except `-p -i` if unknown |                                                       |
+    | `-s` | kernel name                               | `Linux`                                               |
+    | `-n` | network node hostname                     | `zkepes`                                              |
+    | `-r` | kernel release                            | `6.1.0-17-amd64`                                      |
+    | `-v` | kernel version                            | `#1 SMP PREEMPT_DYNAMIC Debian 6.1.69-1 (2023-12-30)` |
+    | `-m` | machine hardware name                     | `x86_64`                                              |
+    | `-o` | operating system                          | `GNU/Linux`                                           |
 
 - **CPU physical:** from the `/proc/cpuinfo` file
   - we simply `-c` count how many 'physical ids' there are to know how many physical CPUs we have.
@@ -488,10 +503,10 @@ Specifies whether a terminal is required for a user to run commands with sudo. W
     - grep the line "MemTotal" and delete everything except digits, divide to get MB
   - **MemFree:** `grep 'MemFree:' /proc/meminfo | tr -dc 0-9) /1000`
     - grep the line "MemFree" and delete everything except digits, divide to get MB
-      ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 \* 100.0) }')")%)
-  - for the %, calculate and print the result when echoing, because floats are dificult to safe in bash script
-    - the free command contains the info | grep line "Mem" | awk to "printf" calculation as float
-- **Disk Usage:** - use `df` with `-h` human readable and `--total` flag to get disk info | grep line "total" | print 4th arg | remove everthing except digits
+      `($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 \* 100.0) }')")%)`
+  - for the %, calculate and print the result when echoing, because floats are difficult to safe in bash script
+    - the `free` command contains the info `| grep line "Mem" | awk to "printf"` calculation as float
+- **Disk Usage:** - use `df` with `-h` human readable and `--total` flag to get disk info `| grep line "total" | print 4th arg |` remove everthing except digits
 - **CPU load:** use `mpstat` (`sudo apt install sysstat`)
   - to get the opposite of the idle state we just subtract 100
 - **LastBoot:**
@@ -500,7 +515,7 @@ Specifies whether a terminal is required for a user to run commands with sudo. W
   - **LVMcheck:**
     `lsblk` command displays block devices and partitions | only grep if you find "lvm" | `FNR` use first record
     - check if the variable contains string "lvm", if yes then overwrite **LVMuse** with "yes, otherwise the value "no" is not changed
-- **Connections TCP:** `ss` displaies info about system network connections (TCP/IP), `-s` summery | use 2nd record and print 2nd arg
+- **Connections TCP:** `ss` displaces info about system network connections (TCP/IP), `-s` summery | use 2nd record and print 2nd arg
 - **User log:**
   - **IP4** `hostname -I` returns IP (network) address
   - **MAC** (**m**edium **a**ccess **c**ontrol address) is a unique identifier assigned to a network interface controller for use as a network address in communications within a network segment.
@@ -536,18 +551,18 @@ MAC=$(ip link | grep 'link/ether' | awk '{print $2}')
 SUDO=$(grep '^sudo' ~/.bash_history | wc -l)
 
 echo -e "\
-|Architecture:\t |$(uname -o)
-|CPU physical:\t |$(grep -c 'physical id' /proc/cpuinfo)
-|CPU virtual:\t |$(grep -c '^processor' /proc/cpuinfo)
-|Memory Usage:\t |${MemUsed}/${MemTotal}MB ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
-|Disk Usage:\t |${DiskUsed}/${DiskTotal}Gb (${DiskPerc})
-|CPU load:\t |${CpuUsed}%
-|Last boot:\t |${LastBoot}
-|LVM use:\t |${LVMuse}
+|Architecture:   |$(uname -o)
+|CPU physical:   |$(grep -c 'physical id' /proc/cpuinfo)
+|CPU virtual:    |$(grep -c '^processor' /proc/cpuinfo)
+|Memory Usage:   |${MemUsed}/${MemTotal}MB ($(echo "$(free | grep Mem | awk '{ printf("%.2f", $3/$2 * 100.0) }')")%)
+|Disk Usage:     |${DiskUsed}/${DiskTotal}Gb (${DiskPerc})
+|CPU load:       |${CpuUsed}%
+|Last boot:      |${LastBoot}
+|LVM use:        |${LVMuse}
 |Connections TCP:|${TCP} ESTABLISHED
-|User log:\t |${UserLogged}
-|Network:\t |IP ${IP4} (${MAC})
-|Sudo:\t\t |${SUDO} cmd" # | wall
+|User log:       |${UserLogged}
+|Network:        |IP ${IP4} (${MAC})
+|Sudo:           |${SUDO} cmd" # | wall
 ```
 
 ## Cron
@@ -557,7 +572,8 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 :::note
 
 - Always use the full path to the job, script, or command you want to run, starting from the root.
-  :::
+
+:::
 
 | command                              | discription                                                                                                                               |
 | :----------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -578,3 +594,13 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 - **line 2:** run task every 10 minutes
 
 2.  in some cases cron service needs to be enabled, run `sudo systemctl enable cron.service`
+
+---
+
+## Configure a static hostname
+
+| command                             | description                                                                                                                |
+| :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `hostname`                          | displays the hostname                                                                                                      |
+| `hostname NEW_NAME`                 | modify the system's name temporarily (_till next reboot_) to **NEW_NAME**                                                  |
+| `hostnamectl set-hostname NEW_NAME` | permanently changes the hostname to **NEW_NAME** in the **/etc/hostname** file (_you could also manually change it there_) |
