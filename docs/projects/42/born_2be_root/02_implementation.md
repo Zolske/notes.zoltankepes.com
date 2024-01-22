@@ -455,7 +455,7 @@ _after creating the "user42" group and adding the user "zkepes" to it_
 
 ---
 
-## Broadcast "System Status" Message
+## 07. Broadcast "System Status" Message
 
 - create for the project the **monitoring.sh** file and save it under **/usr/local/bin/monitoring.sh** with the content from below.
 - install `mpstat` for the "CPU load" statistic: `sudo apt install sysstat`
@@ -569,7 +569,7 @@ echo -e "\
 |Sudo:           |${SUDO} cmd"
 ```
 
-## Cron
+## 08. Cron
 
 _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberciti](https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/), [phoenixnap](https://phoenixnap.com/kb/crontab-reboot)
 
@@ -602,7 +602,7 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 
 ---
 
-## Configure a static hostname
+## 09. Configure a static hostname
 
 | command                             | description                                                                                                                                                                      |
 | :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -611,3 +611,15 @@ _sourc:_ [red head](https://www.redhat.com/sysadmin/linux-cron-command), [cyberc
 | `hostnamectl set-hostname NEW_NAME` | permanently changes the hostname to **NEW_NAME** in the **/etc/hostname** file (_you could also manually change it there but the change would be only applied after restarting_) |
 
 - _NOTE: the hostname changes for the terminal "bar" after restarting._
+
+## 10. Submission
+
+1. open your "VirtualBox VMs" folder  
+   (_should be: `/nfs/sgoinfre/Perso/zkepes/VirtualBox VMs/deb_headless_server`_)
+2. use the `sha1sum` command to get the signiture of the "virtual machine":  
+   `sha1sum deb_headless_server.vdi | cut -d' ' -f1 | cat > signature.txt`
+3. copy the file to your projects repisitory
+
+:::caution
+Please note that your virtual machine’s signature may be altered after your first evaluation. To solve this problem, you can duplicate your virtual machine or use save state.
+:::

@@ -8,7 +8,7 @@ sidebar_position: 3
 
 _source:_ [vmware](https://www.vmware.com/uk/topics/glossary/content/virtual-machine.html)
 
-A Virtual Machine (VM) is a compute resource that uses software instead of a physical computer to run programs and deploy apps. One or more virtual “guest” machines run on a physical “host” machine. Each virtual machine runs its own operating system and functions separately from the other VMs, even when they are all running on the same host.
+A Virtual Machine (VM) is a compute resource that uses software instead of a physical computer to run programs and deploy apps. One or more "virtual machines" run on a physical “host” machine. Each virtual machine runs its own operating system and functions separately from the other VMs, even when they are all running on the same host.
 ![virtual machine](./img/virtual_machine.png)
 
 ### Hypervisor
