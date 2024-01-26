@@ -6,7 +6,7 @@ sidebar_position: 8
 
 _source:_ test the code in [pythontutor](https://pythontutor.com/c.html#mode=edit)
 
-The algorithm has to write the characters which are matching in the two input strings but only one of each type.  
+The algorithm has to write the characters which are matching in the two input strings but no character can be written doubled.  
 The problem is to prevent the same characters being written more than once.
 
 <details> 
@@ -128,3 +128,26 @@ _link to_ ["python tutor example"](https://pythontutor.com/render.html#code=%23i
 
 </TabItem>
 </Tabs>
+
+## Explanation
+
+- The 1st condition on "line 14" is to check if the current character is part of the 1st argument but before the current iteration/ index. This way we check if it has not already been written, because if it is then we have written it before.
+- The 2nd condition on "line 14" is only evaluated if the first was negated from false to true. Its job is to check if the current character is part of the 2nd argument.
+- the function is used for two purposes:
+
+  1. **if len is not -1**, used as 1st condition on "line 14": check if the character is part of string (1st arg) -> return true -> negated to **false**
+  2. **if len is -1** used as 2nd condition on "line 14": check if the character is part of the string (2nd arg) -> return **true**
+
+---
+
+### 1st iteration
+
+![1st](./img/intra_1st.png)
+
+### 2nd iteration
+
+![2nd](./img/intra_2nd.png)
+
+### 3rd iteration
+
+![3rd](./img/intra_3rd.png)
