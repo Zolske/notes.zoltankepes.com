@@ -1,7 +1,3 @@
----
-sidebar_position: 8
----
-
 # Inter
 
 _source:_ test the code in [pythontutor](https://pythontutor.com/c.html#mode=edit)
@@ -119,7 +115,7 @@ int	iter(char *str, char c, int len)
 
 </TabItem>
 
-<TabItem value="pythontutor" label="pythontutor">
+<TabItem value="pythontutor" label="Python Tutor">
 
 _NOTE: The "source code" has been adapted to make it work with the "python tutor"_  
 _link to_ ["python tutor example"](https://pythontutor.com/render.html#code=%23include%20%3Cunistd.h%3E%0A%0Aint%20iter%28char%20*str,%20char%20c,%20int%20len%29%3B%0A%0Aint%20main%28void%29%0A%7B%0A%20%20%20%20int%20i%3B%0A%20%20%20%20char%20*argv%5B3%5D%20%3D%20%7B%22inter%22,%20%22ok%22,%20%22kaoaol%22%7D%3B%0A%0A%20%20%20%20%20%20%20%20i%20%3D%200%3B%0A%20%20%20%20%20%20%20%20while%20%28argv%5B1%5D%5Bi%5D%29%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20%28!iter%28argv%5B1%5D,%20argv%5B1%5D%5Bi%5D,%20i%29%20%26%26%20iter%28argv%5B2%5D,%20argv%5B1%5D%5Bi%5D,%20-1%29%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20write%281,%20%26argv%5B1%5D%5Bi%5D,%201%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20i%2B%2B%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20write%281,%20%22%5Cn%22,%201%29%3B%0A%20%20%20%20return%20%280%29%3B%0A%7D%0A%0Aint%20iter%28char%20*str,%20char%20c,%20int%20len%29%0A%7B%0A%20%20%20%20int%20i%20%3D%200%3B%0A%20%20%20%20while%20%28str%5Bi%5D%20%26%26%20%28i%20%3C%20len%20%7C%7C%20len%20%3D%3D%20-1%29%29%0A%20%20%20%20%20%20%20%20if%20%28str%5Bi%2B%2B%5D%20%3D%3D%20c%29%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20%281%29%3B%0A%20%20%20%20return%20%280%29%3B%0A%7D&cumulative=false&curInstr=0&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=c_gcc9.3.0&rawInputLstJSON=%5B%5D&textReferences=false)
