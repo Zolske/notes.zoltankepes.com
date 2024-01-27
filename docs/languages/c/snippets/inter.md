@@ -1,6 +1,4 @@
-# Inter
-
-_source:_ test the code in [pythontutor](https://pythontutor.com/c.html#mode=edit)
+# Inter - matching char without doubles
 
 The algorithm has to write the characters which are matching in the two input strings but no character can be written doubled.  
 The problem is to prevent the same characters being written more than once.
@@ -8,9 +6,9 @@ The problem is to prevent the same characters being written more than once.
 <details> 
     <summary>Subject</summary>
 
-    Assignment name  : inter
-    Expected files   : inter.c
-    Allowed functions: write
+    Assignment name   : inter
+    Expected files    : inter.c
+    Allowed functions : write
     --------------------------------------------------------------------------------
 
     Write a program that takes two strings and displays, without doubles, the
@@ -131,10 +129,12 @@ _link to_ ["python tutor example"](https://pythontutor.com/render.html#code=%23i
 - The 2nd condition on "line 14" is only evaluated if the first was negated from false to true. Its job is to check if the current character is part of the 2nd argument.
 - the function is used for two purposes:
 
-  1. **if len is not -1**, used as 1st condition on "line 14": check if the character is part of string (1st arg) -> return true -> negated to **false**
-  2. **if len is -1** used as 2nd condition on "line 14": check if the character is part of the string (2nd arg) -> return **true**
+  1. **if len is not -1**, used for 1st condition on "line 14": check if the character is part of string (1st arg) -> return true -> negated to **false**
+  2. **if len is -1** used for 2nd condition on "line 14": check if the character is part of the string (2nd arg) -> return **true**
 
 ---
+
+_TIP: right click on the image below and select "open image in a new tab" to better view it._
 
 ### 1st iteration
 
