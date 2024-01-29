@@ -1,6 +1,6 @@
 # ft_strcspn - str len without str_2
 
-Calculates the length of the initial segment of `s`, which consists entirely of characters not in `reject`.  
+Calculates the length of the **initial** segment of `s`, which consists entirely of characters **not in** `reject`.  
 See [MAN page](https://linux.die.net/man/3/strcspn) or [tutorialspoint](https://www.tutorialspoint.com/c_standard_library/c_function_strcspn.htm).
 
 <details>
@@ -20,6 +20,24 @@ See [MAN page](https://linux.die.net/man/3/strcspn) or [tutorialspoint](https://
     size_t	ft_strcspn(const char *s, const char *reject);
 
 </details>
+
+```c showLineNumbers
+size_t ft_strcspn(const char *s, const char *reject)
+{
+    size_t i = 0;
+    size_t j = 0;
+
+    while (s[i])
+    {
+        while (reject[j])
+            if (s[i] == reject[j++])
+                return (i);
+        j = 0;
+        i++;
+    }
+    return (i);
+}
+```
 
 <details>
 <summary>size_t</summary>
@@ -68,5 +86,22 @@ int main()
 </details>
 
 <details>
-<summary></summary>
+<summary>Code Explanation</summary>
+
+### Code Explanation
+
+- **line 1:** The function `ft_strcspn` is defined with the return type `size_t` and two parameters: `s` and `reject`.
+
+- **line 3-4:** Two variables, `i` and `j`, are declared and initialized to 0. These variables will be used as counters.
+
+- **line 6:** The outer while loop iterates over the characters of the string `s` until it reaches the null terminator (`'\0'`), indicating the end of the string.
+
+- **line 8:** Inside the outer loop, there is an inner while loop that iterates over the characters of the string `reject`.
+
+- **line 9:** If the current character of `s` matches any character in `reject`, the function returns the current value of `i`, which represents the length of the initial segment without any characters from `reject`.
+
+- **line 11-12:** If no match is found, the inner loop is reset by setting `j` back to 0 and the outer loop continues to the next character of `s`.
+
+- **line 14:** Finally, if the end of the string `s` is reached without any matches, the function returns the length of the entire string `s`.
+
 </details>
