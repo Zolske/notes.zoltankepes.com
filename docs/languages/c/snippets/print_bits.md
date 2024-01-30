@@ -47,6 +47,10 @@ _source:_ [wikipedia.org/wiki/Bitwise_operations_in_C](https://en.wikipedia.org/
 It shifts each bit in its left operand to the right. The number following the operator decides the number of places the bits are shifted (i.e. the right operand). Thus by doing `8 >> 3` all the bits will be shifted to the right by three places and so on. The value changes to 1.  
 ![bitwise shift right](./img/bitwise_right_shift.png)
 
+### Bitwise Operator - Left shift <<
+
+The same as the "Right shift" just from the other side.
+
 :::caution
 Do note that a shift operand value which is either a negative number or is greater than or equal to the total number of bits in this value results in undefined behavior. For example, when shifting a 32 bit unsigned integer, a shift amount of 32 or higher would be undefined.
 :::
