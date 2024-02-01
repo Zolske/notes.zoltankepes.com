@@ -1,0 +1,24 @@
+# Level 3:
+- add_prime_sum
+- ft_atoi_base
+- lcm
+- print_hex
+
+ok:
+- ft_range/
+- pgcd
+- ft_list_size 
+
+Level 4:
+- flood_fill
+- fprime
+- ft_list_foreach
+- ft_list_remove_if
+- ft_split
+- sort_list
+
+ok:
+- ft_itoa
+- rev_wstr
+- rostring
+- sort_int_tab

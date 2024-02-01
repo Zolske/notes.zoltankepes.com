@@ -1,4 +1,4 @@
-# atoi - ASCII to Int
+# atoi
 
 Transforms a string into an int. Works like the real "atoi" function (_[see MAN pages](https://man7.org/linux/man-pages/man3/atoi.3p.html)_):
 

@@ -1,4 +1,4 @@
-# Alpha Mirror - mirror letter
+# alpha_mirror
 
 The program takes one argument as a string and mirrors the text by replacing each letter with its corresponding mirror character.
 

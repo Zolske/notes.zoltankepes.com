@@ -1,4 +1,4 @@
-# Camel to Snake Case
+# camel_to_snake
 
 Transforms a single argument from camel case to snake case.
 

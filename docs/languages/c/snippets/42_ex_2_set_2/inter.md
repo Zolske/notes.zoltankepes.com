@@ -1,4 +1,4 @@
-# Inter - matching char without doubles
+# inter
 
 The algorithm has to write the characters which are matching in the two input strings but no character can be written doubled.  
 The problem is to prevent the same characters being written more than once.

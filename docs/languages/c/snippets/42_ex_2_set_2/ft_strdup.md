@@ -1,4 +1,4 @@
-# ft_strdup - string duplication
+# ft_strdup
 
 Returns a pointer to a new string which is a duplicate of the string `s`. Memory for the new string is obtained with `malloc`, and can be freed with `free`. [MAN page](https://linux.die.net/man/3/strdup)
 

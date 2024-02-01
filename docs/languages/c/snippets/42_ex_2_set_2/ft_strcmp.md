@@ -1,4 +1,4 @@
-# ft_strcmp - string compare
+# ft_strcmp
 
 Reproduce the behavior of the function `strcmp` ([MAN strcmp](https://man7.org/linux/man-pages/man3/strcmp.3.html)).  
 Compares two strings till one of the strings characters is unequal to the other. The difference of the ASCII value is then returned.

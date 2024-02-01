@@ -1,4 +1,4 @@
-# Do Operation
+# do_op
 
 The program calculates the 1st with the 3rd argument. The 2nd argument determents the type of the operation.  
 NOTE: The result will be a integer (_e.g.: 5 / 2 = 2_).

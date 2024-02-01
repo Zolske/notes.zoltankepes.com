@@ -1,4 +1,4 @@
-# ft_strcspn - str len without str_2
+# ft_strcspn
 
 Calculates the length of the **initial** segment of `s`, which consists entirely of characters **not in** `reject`.  
 See [MAN page](https://linux.die.net/man/3/strcspn) or [tutorialspoint](https://www.tutorialspoint.com/c_standard_library/c_function_strcspn.htm).
