@@ -131,6 +131,12 @@
   height: 26px;
 }
 
+/* start layout #############################################################################*/
+li > p {
+  margin-top: 4px !important;
+  margin-bottom: 4px;
+}
+
 /* start footer #############################################################################*/
 .cfoot--header {
   text-align: center;

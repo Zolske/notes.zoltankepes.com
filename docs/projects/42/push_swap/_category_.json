@@ -1,0 +1,8 @@
+{
+    "label": "Push Swap",
+    "position": 2,
+    "link": {
+      "type": "generated-index",
+      "description": "This project sorts data on a stack, with a limited set of instructions, using the lowest possible number of actions."
+    }
+  }
