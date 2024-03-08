@@ -8,20 +8,26 @@ Write a program in C called **push_swap** which uses the "**push swap instructio
 
 ## Push Swap instructions
 
-- you have 2 stacks named **a** and **b**
-- the numbers which are given as input are stacked (_first input at the bottom_) in stack **a** while **b** is empty
-- numbers can be **negative** but **not duplicates** and have to be within the **range of the `int`** data type
+- you have 2 stacks named **A** and **B**
+- the numbers which are given as input are stacked (_first input at the bottom_) in stack **A** while **B** is empty
+- the input can be a single argument as a string containing the values separated by spaces (_"4 -1"_) or  
+  as single numeric arguments (_4 -1_)
+- return `Error` followed by a new line if:
+  - there is a **non numeric** input (_except a prefixed minus_),
+  - a duplicated number,
+  - the input values are outside of the `int` data type range
+- print nothing if the numbers are already sorted or if there is only one
     <details>
     <summary>list of <b>push swap instructions</b> which can be used:</summary>
-   The instruction (function) which is used to change the stack needs to be printed to the standard output followed by a new line.
+   The instruction (function) which is used to change the stack need to be printed to the standard output followed by a new line.
 
   | command to be printed | function used in my code | description                                                                                                  |
   | :-------------------- | :----------------------- | :----------------------------------------------------------------------------------------------------------- |
   | `sa`                  | `co_swap_a()`            | (_swap a_): Swap the first 2 elements at the top of stack a. Do nothing if there is only one or no elements. |
   | `sb`                  | `co_swap_b()`            | (_swap b_): Swap the first 2 elements at the top of stack b.Do nothing if there is only one or no elements.  |
   | `ss`                  | `co_swap_both()`         | sa and sb at the same time.                                                                                  |
-  | `pa`                  | `co_push_a_to_b()`       | (_push a_): Take the first element at the top of b and put it at the top of a. Do nothing if b is empty.     |
-  | `pb`                  | `co_push_b_to_a()`       | (_push b_): Take the first element at the top of a and put it at the top of b. Do nothing if a is empty.     |
+  | `pa`                  | `co_push_b_to_a()`       | (_push a_): Take the first element at the top of b and put it at the top of a. Do nothing if b is empty.     |
+  | `pb`                  | `co_push_a_to_b()`       | (_push b_): Take the first element at the top of a and put it at the top of b. Do nothing if a is empty.     |
   | `ra`                  | `co_rotate_a()`          | (_rotate a_): Shift up all elements of stack a by 1. The first element becomes the last one.                 |
   | `rb`                  | `co_rotate_b()`          | (_rotate b_): Shift up all elements of stack b by 1. The first element becomes the last one.                 |
   | `rr`                  | `co_rotate_both()`       | ra and rb at the same time.                                                                                  |
